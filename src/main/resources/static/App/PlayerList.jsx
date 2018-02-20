@@ -1,0 +1,17 @@
+import React, { Component } from 'react';
+
+class PlayerList extends Component {
+    render() {
+        return (
+            <div>
+
+                {this.props.players.map(( player, i ) =>
+                    <div key={i} onClick={() => this.props.selectPlayer( player )}>{player.name}</div>
+                )}
+
+            </div>
+        );
+    }
+}
+
+export default PlayerList;
