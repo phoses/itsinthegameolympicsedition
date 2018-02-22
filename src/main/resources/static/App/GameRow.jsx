@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Moment from 'react-moment';
 import * as functions from "./Functions.jsx";
 
 class GameRow extends React.Component {
@@ -7,11 +8,13 @@ class GameRow extends React.Component {
         this.action = this.action.bind( this );
         this.savegame = this.savegame.bind( this );
         this.deletegame = this.deletegame.bind( this );
+        this.handlechange = this.handlechange.bind( this );
+        
     };
 
     action() {
         console.log( "action :" + this.props.action )
-        console.log( "game :" + this.props.game.timeplayed.toLocaleDateString() );
+        console.log( "game :" + this.props.game.timeplayed );
         
         if(this.props.action == 'save'){
             this.savegame();
@@ -28,35 +31,49 @@ class GameRow extends React.Component {
     
     deletegame() {
         console.log( "this.props.data :" + JSON.stringify(this.props.data) )
-        functions.deleteGame(this.props, this.props.game);
-        this.setState( {} );
+        functions.deleteGame(this.props, this.props.game, this.props.postaction);
     }
     
     savegame() {
         console.log( "this.props.data :" + JSON.stringify(this.props.data) )
-        functions.saveGame(this.props, this.props.game);
-        this.setState( {} );
+        functions.saveGame(this.props, this.props.game, this.props.postaction);
+    }
+    
+    handlechange(event){
+        this.props.game.overtime = event.target.checked;
+        this.setState({});
     }
     
     render() {
         return (
             <tr>
-                <td>{this.props.game.timeplayed.toLocaleDateString()}</td>
+             
                 <td>
-                    {this.props.game.homePlayers.map(( player, i ) =>
+                    <Moment format="DD.MM.YYYY HH:mm">{this.props.game.timeplayed}</Moment>
+                </td>
+                <td>
+                    {this.props.game.homeplayers.map(( player, i ) =>
                         <span key={i}>{i > 0 ? '  ' : ''} {player.name}</span>
                     )}
                 </td>
                 <td>-</td>
                 <td>
-                    {this.props.game.awayPlayers.map(( player, i ) =>
+                    {this.props.game.awayplayers.map(( player, i ) =>
                         <span key={i}>{i > 0 ? '  ' : ''}{player.name}</span>
                     )}
                 </td>
                 <td>:</td>
-                <td><span>{this.props.game.homeGoals}</span></td>
+                <td><span>{this.props.game.homegoals}</span></td>
                 <td>-</td>
-                <td><span>{this.props.game.awayGoals}</span></td>
+                <td><span>{this.props.game.awaygoals}</span></td>
+                <td>
+                    {this.props.action =='save' ? (
+                        <span>ot<input type="checkbox" checked={this.props.game.overtime} onChange={this.handlechange}/></span>
+                    ) : (
+                        <span>{this.props.game.overtime == true ? 'ot' : ''}</span>    
+                    )}        
+                   
+                </td>
                 <td><button onClick={this.action}>{this.props.action}</button></td>
             </tr>
 

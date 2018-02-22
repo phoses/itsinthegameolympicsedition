@@ -9,11 +9,6 @@ class PlayerAdd extends Component {
             name: ''
         }
 
-//        this.changePlayer = this.changePlayer.bind( this );
-//        this.playerAdded = this.playerAdded.bind( this );
-//        this.addPlayer = this.addPlayer.bind( this );
-//        this.playerAdd = this.playerAdd.bind( this );
-
         this.handleInputChange = this.handleInputChange.bind( this );
         this.afterSave = this.afterSave.bind( this );
         this.savePlayer = this.savePlayer.bind( this );

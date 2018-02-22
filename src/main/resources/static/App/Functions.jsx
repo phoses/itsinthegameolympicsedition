@@ -4,10 +4,19 @@ export function deleteGame( state, game, afterFunc ) {
     console.log( "deleteGame : " + JSON.stringify( game ) );
 
     if ( confirm( "Delete game?" ) ) {
-        var index = state.data.games.indexOf( game )
-        state.data.games.splice( index, 1 );
-        
-        afterFunc();
+                
+        axios.delete( 'http://localhost:8080/api/games/'+game.id )
+        .then( function( response ) {
+            console.log( "deleted game : " + JSON.stringify( response ) );
+            
+            var index = state.data.games.indexOf( game )
+            state.data.games.splice( index, 1 );
+            
+            afterFunc();
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
 
 }
@@ -17,7 +26,7 @@ export function deletePlayer( state, player, afterFunc) {
 
     if ( confirm( "Delete player?" ) ) {
         
-        axios.delete( player._links.player.href )
+        axios.delete( 'http://localhost:8080/api/players/'+player.id)
         .then( function( response ) {
             console.log( "deleted player : " + JSON.stringify( response ) );
             
@@ -38,7 +47,7 @@ export function deleteTournament( state, tournament, afterFunc) {
 
     if ( confirm( "Delete tournament?" ) ) {
         
-        axios.delete( tournament._links.tournament.href )
+        axios.delete( 'http://localhost:8080/api/tournaments/'+tournament.id )
         .then( function( response ) {
             console.log( "deleted tournament : " + JSON.stringify( response ) );
             
@@ -54,11 +63,20 @@ export function deleteTournament( state, tournament, afterFunc) {
 
 }
 
-export function saveGame( state, game ) {
+export function saveGame( state, game, afterfunction ) {
 
     console.log( "saveGame : " + JSON.stringify( game ) );
-
-    state.data.games.push( game );
+    
+    axios.post( 'http://localhost:8080/api/games', game )
+    .then( function( response ) {
+        console.log( "saved game : " + JSON.stringify( response.data ) );
+        
+        state.data.games.push( response.data );
+        afterfunction();
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
 
 }
 
@@ -76,9 +94,9 @@ export function savePlayer( state, player, afterfunction ) {
      
         axios.post( 'http://localhost:8080/api/players', player )
         .then( function( response ) {
-            console.log( "saved players : " + JSON.stringify( response ) );
+            console.log( "saved players : " + JSON.stringify( response.data ) );
             
-            state.data.players.push( response );
+            state.data.players.push( response.data );
             afterfunction();
         })
         .catch(function (error) {
@@ -102,9 +120,9 @@ export function saveTournament(state, tournament, afterfunction ){
 
         axios.post( 'http://localhost:8080/api/tournaments', tournament )
         .then( function( response ) {
-            console.log( "saved tournament : " + JSON.stringify( response ) );
+            console.log( "saved tournament : " + JSON.stringify( response.data ) );
             
-            state.data.tournaments.push( tournament );
+            state.data.tournaments.push( response.data );
             afterfunction();
         })
         .catch(function (error) {

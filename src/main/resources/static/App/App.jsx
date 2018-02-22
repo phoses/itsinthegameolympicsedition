@@ -16,30 +16,35 @@ class App extends Component {
 
         this.state = {
             players: [],
-            games: [{
-                homePlayers: [{name:'olli'}],
-                awayPlayers: [{name:'antti'}],
-                homeGoals: 2,
-                awayGoals: 2,
-                timeplayed: new Date()
-            }],
-            tournaments:[]
+            games: [],
+            tournaments:[],
+            scoretables:[]
         }
      
     };
     
     componentDidMount() {        
         axios.get( 'http://localhost:8080/api/tournaments' ).then( ( response ) => {
-            console.log( "fetched tournaments : " + JSON.stringify( response.data._embedded.tournaments ) );
-            this.setState({tournaments:response.data._embedded.tournaments});
+            console.log( "fetched tournaments : " + JSON.stringify( response ) );
+            this.setState({tournaments:response.data});
         } );
         
         axios.get( 'http://localhost:8080/api/players' ).then( ( response ) => {
-            console.log( "fetched players : " + JSON.stringify( response.data._embedded.players ) );
-            this.setState({players:response.data._embedded.players});
+            console.log( "fetched players : " + JSON.stringify( response ) );
+            this.setState({players:response.data});
+        } );
+        
+        axios.get( 'http://localhost:8080/api/games' ).then( ( response ) => {
+            console.log( "fetched games : " + JSON.stringify( response ) );
+            this.setState({games:response.data});
+        } );
+        
+        axios.get( 'http://localhost:8080/api/scoretables' ).then( ( response ) => {
+            console.log( "fetched scoretables : " + JSON.stringify( response ) );
+            this.setState({scoretables:response.data});
         } );
     }
-
+    
     render() {
         return (
             <HashRouter>
@@ -52,7 +57,7 @@ class App extends Component {
                     <hr />
 
                     <div className="content">
-                        <Route exact path='/' component={()=> <Stats data={this.state}/>} />
+                        <Route exact path='/' component={()=> <Stats data={this.state} fetchGames={this.fetchGames}/>} />
                         <Route exact path='/Newgame' component={()=> <Newgame data={this.state}/>} />
                         <Route exact path='/Config' component={()=> <Config data={this.state}/>} />
                     </div>
