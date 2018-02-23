@@ -100,7 +100,6 @@ class Newgame extends Component {
                 {this.state.game.homeplayers.length > 0 &&
                     <Result game={this.state.game}
                         clear={this.clear}
-                        savegame={this.savegame}
                         changeHomeGoal={this.changeHomeGoal}
                         changeAwayGoal={this.changeAwayGoal} 
                         changeTournament={this.changeTournament}

@@ -5,7 +5,7 @@ export function deleteGame( state, game, afterFunc ) {
 
     if ( confirm( "Delete game?" ) ) {
                 
-        axios.delete( 'http://localhost:8080/api/games/'+game.id )
+        axios.delete( state.data.apilocation+'/api/games/'+game.id )
         .then( function( response ) {
             console.log( "deleted game : " + JSON.stringify( response ) );
             
@@ -26,7 +26,7 @@ export function deletePlayer( state, player, afterFunc) {
 
     if ( confirm( "Delete player?" ) ) {
         
-        axios.delete( 'http://localhost:8080/api/players/'+player.id)
+        axios.delete( state.data.apilocation+'/api/players/'+player.id)
         .then( function( response ) {
             console.log( "deleted player : " + JSON.stringify( response ) );
             
@@ -47,7 +47,7 @@ export function deleteTournament( state, tournament, afterFunc) {
 
     if ( confirm( "Delete tournament?" ) ) {
         
-        axios.delete( 'http://localhost:8080/api/tournaments/'+tournament.id )
+        axios.delete( state.data.apilocation+'/api/tournaments/'+tournament.id )
         .then( function( response ) {
             console.log( "deleted tournament : " + JSON.stringify( response ) );
             
@@ -67,7 +67,7 @@ export function saveGame( state, game, afterfunction ) {
 
     console.log( "saveGame : " + JSON.stringify( game ) );
     
-    axios.post( 'http://localhost:8080/api/games', game )
+    axios.post( state.data.apilocation+'/api/games', game )
     .then( function( response ) {
         console.log( "saved game : " + JSON.stringify( response.data ) );
         
@@ -92,7 +92,7 @@ export function savePlayer( state, player, afterfunction ) {
 
     if ( player.name.length > 0 ) {
      
-        axios.post( 'http://localhost:8080/api/players', player )
+        axios.post( state.data.apilocation+'/api/players', player )
         .then( function( response ) {
             console.log( "saved players : " + JSON.stringify( response.data ) );
             
@@ -118,7 +118,7 @@ export function saveTournament(state, tournament, afterfunction ){
 
     if ( tournament.name.length > 0 ) {
 
-        axios.post( 'http://localhost:8080/api/tournaments', tournament )
+        axios.post( state.data.apilocation+'/api/tournaments', tournament )
         .then( function( response ) {
             console.log( "saved tournament : " + JSON.stringify( response.data ) );
             

@@ -20,31 +20,31 @@ class Stats extends Component {
     }
 
     handleChange( event ) {
-        this.setState({selectedtournament: event.target.value});
-        
-        if(event.target.value != ''){
-            axios.get( 'http://localhost:8080/api/games/tournament/'+event.target.value ).then( ( response ) => {
+        this.setState( { selectedtournament: event.target.value } );
+
+        if ( event.target.value != '' ) {
+            axios.get( this.props.data.apilocation + '/api/games/tournament/' + event.target.value ).then(( response ) => {
                 console.log( "fetched games : " + JSON.stringify( response ) );
                 this.props.data.games = response.data;
-                this.setState({});
+                this.setState( {} );
             } );
-            
-            axios.get( 'http://localhost:8080/api/scoretables/tournament/'+event.target.value ).then( ( response ) => {
+
+            axios.get( this.props.data.apilocation + '/api/scoretables/tournament/' + event.target.value ).then(( response ) => {
                 console.log( "fetched scoretables : " + JSON.stringify( response ) );
                 this.props.data.scoretables = response.data;
-                this.setState({});
+                this.setState( {} );
             } );
-        }else{
-            axios.get( 'http://localhost:8080/api/games' ).then( ( response ) => {
+        } else {
+            axios.get( this.props.data.apilocation + '/api/games' ).then(( response ) => {
                 console.log( "fetched games : " + JSON.stringify( response ) );
                 this.props.data.games = response.data;
-                this.setState({});
+                this.setState( {} );
             } );
-            
-            axios.get( 'http://localhost:8080/api/scoretables' ).then( ( response ) => {
+
+            axios.get( this.props.data.apilocation + '/api/scoretables' ).then(( response ) => {
                 console.log( "fetched scoretables : " + JSON.stringify( response ) );
                 this.props.data.scoretables = response.data;
-                this.setState({});
+                this.setState( {} );
             } );
         }
 
@@ -60,9 +60,9 @@ class Stats extends Component {
                         <option key={i} value={tournament.id}>{tournament.name}</option>
                     )}
                 </select>
-        
+
                 <TournamentTable scoretables={this.props.data.scoretables} />
-        
+
                 <h3>Games played</h3>
 
                 <table>
