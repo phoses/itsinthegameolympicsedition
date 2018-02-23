@@ -42,8 +42,8 @@ public class DataService {
 	
 	@RequestMapping(value="/api/games/tournament/{id}", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public Iterable<Game> tournamentGames(@PathVariable("id") long id){
-		return gameRepository.findByTournamentId(id);
+	public Iterable<Game> tournamentGames(@PathVariable("id") String id){
+		return gameRepository.findByTournament(tournamentRepository.findById(id));
 	}
 	
 	@RequestMapping(value="/api/games", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
@@ -54,8 +54,8 @@ public class DataService {
 	
 	@RequestMapping(value="/api/games/{id}", method = {RequestMethod.DELETE}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteGame(@PathVariable("id") long id){	
-		gameRepository.delete(id);
+	public void deleteGame(@PathVariable("id") String id){	
+		gameRepository.deleteGameById(id);
 	}
 	
 	@RequestMapping(value="/api/players", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
@@ -72,8 +72,8 @@ public class DataService {
 	
 	@RequestMapping(value="/api/players/{id}", method = {RequestMethod.DELETE}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public void deletePlayer(@PathVariable("id") long id){	
-		playerRepository.delete(id);
+	public void deletePlayer(@PathVariable("id") String id){	
+		playerRepository.deletePlayerById(id);
 	}
 	
 	@RequestMapping(value="/api/tournaments", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
@@ -90,8 +90,8 @@ public class DataService {
 	
 	@RequestMapping(value="/api/tournaments/{id}", method = {RequestMethod.DELETE}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteTournament(@PathVariable("id") long id){	
-		tournamentRepository.delete(id);
+	public void deleteTournament(@PathVariable("id") String id){	
+		tournamentRepository.deleteTournamentById(id);
 	}
 	
 	@RequestMapping(value="/api/scoretables", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
@@ -102,11 +102,11 @@ public class DataService {
 	
 	@RequestMapping(value="/api/scoretables/tournament/{id}", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public Iterable<Scoretable> tournamentScoretable(@PathVariable("id") long id){
+	public Iterable<Scoretable> tournamentScoretable(@PathVariable("id") String id){
 		return calculateScoretable(id);
 	}
 	
-	private Iterable<Scoretable> calculateScoretable(Long tournamentId){
+	private Iterable<Scoretable> calculateScoretable(String tournamentId){
 		
 		Iterable<Game> games;
 		
@@ -115,7 +115,7 @@ public class DataService {
 		if(tournamentId == null){
 			games = gameRepository.findAll();
 		}else{
-			games = gameRepository.findByTournamentId(tournamentId);;
+			games = gameRepository.findByTournament(tournamentRepository.findById(tournamentId));
 		}
 		
 		for(Game game : games){
@@ -160,7 +160,7 @@ public class DataService {
 			
 			if(game.isOvertime()){
 				scoretable.addOtwins(1);
-				scoretable.addPoints(game.getTournament().getOvertimewinpoints());
+				scoretable.addPoints(game.getTournament().getOtwinpoints());
 			}else{
 				scoretable.addWins(1);
 				scoretable.addPoints(game.getTournament().getWinpoints());
@@ -175,7 +175,7 @@ public class DataService {
 			
 			if(game.isOvertime()){
 				scoretable.addOtloses(1);
-				scoretable.addPoints(game.getTournament().getOvertimelosepoints());
+				scoretable.addPoints(game.getTournament().getOtlosepoints());
 			}else{
 				scoretable.addLoses(1);
 			}

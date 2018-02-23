@@ -1,12 +1,12 @@
 package com.op.itsinthegame.repo;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.op.itsinthegame.dto.Tournament;
 
-@CrossOrigin(methods={RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE})
-public interface TournamentRepository extends CrudRepository<Tournament, Long>{
+public interface TournamentRepository extends MongoRepository<Tournament, Long>{
 
+	void deleteTournamentById(String id); 
+	
+	Tournament findById(String id);
 }

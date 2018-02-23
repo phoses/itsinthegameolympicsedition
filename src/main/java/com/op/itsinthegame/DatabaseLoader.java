@@ -1,13 +1,12 @@
 package com.op.itsinthegame;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.op.itsinthegame.dto.Game;
@@ -18,6 +17,7 @@ import com.op.itsinthegame.repo.PlayerRepository;
 import com.op.itsinthegame.repo.TournamentRepository;
 
 @Component
+@Profile("dev")
 public class DatabaseLoader implements CommandLineRunner{
 
 	@Autowired

@@ -54,8 +54,8 @@ class TournamentAdd extends Component {
                     <div key={i} onClick={() => this.deleteTournament( tournament )}>
                         <span>name: {tournament.name}</span>,
                         <span>win points: {tournament.winpoints}</span>,
-                        <span>OT win points: {tournament.overtimewinpoints}</span>,
-                        <span>OT lose points: {tournament.overtimelosepoints}</span>,
+                        <span>OT win points: {tournament.otwinpoints}</span>,
+                        <span>OT lose points: {tournament.otlosepoints}</span>,
                         <span>draw points: {tournament.drawpoints}</span>
                     </div>
                 )}
