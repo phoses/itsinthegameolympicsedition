@@ -16,6 +16,7 @@ class Config extends Component {
         return (
             <div>
                 <PlayerAdd data={this.props.data}/>
+                <br/><br/>
                 <TournamentAdd data={this.props.data}/>
             </div>
         );
