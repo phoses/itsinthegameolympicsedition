@@ -17,7 +17,7 @@ class App extends Component {
 
         var apilocation='';
         if(hostname=='localhost'){
-            apilocation='http://localhost:8080';
+            apilocation='http://localhost:8082';
         }
         
         this.state = {
