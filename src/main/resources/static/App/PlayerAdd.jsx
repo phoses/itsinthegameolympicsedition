@@ -41,12 +41,12 @@ class PlayerAdd extends Component {
 
     render() {
         return (
-            <div>
+            <div className="renderContent">
                 <h2>Players</h2>
                 <PlayerList players={this.props.data.players} selectPlayer={this.deletePlayer} />
 
-                <input type="text" value={this.state.name} name="name" onChange={this.handleInputChange} />
-                <input type="button" value="add" onClick={this.savePlayer} />
+                <span>Add new player</span> <input type="text" value={this.state.name} name="name" onChange={this.handleInputChange} />
+                <input type="button" value="Add" onClick={this.savePlayer} />
             </div>
         );
     }

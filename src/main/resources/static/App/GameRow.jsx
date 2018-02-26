@@ -16,11 +16,11 @@ class GameRow extends React.Component {
         console.log( "action :" + this.props.action )
         console.log( "game :" + this.props.game.timeplayed );
         
-        if(this.props.action == 'save'){
+        if(this.props.action == 'Save'){
             this.savegame();
         }
         
-        if(this.props.action == 'delete'){
+        if(this.props.action == 'Delete'){
             this.deletegame();
         }
         
@@ -46,7 +46,7 @@ class GameRow extends React.Component {
     
     render() {
         return (
-            <tr>
+            <tr className="table gamerow">
              
                 <td>
                     <Moment format="DD.MM.YYYY HH:mm">{this.props.game.timeplayed}</Moment>
@@ -63,9 +63,9 @@ class GameRow extends React.Component {
                     )}
                 </td>
                 <td>:</td>
-                <td><span>{this.props.game.homegoals}</span></td>
-                <td>-</td>
-                <td><span>{this.props.game.awaygoals}</span></td>
+                <td className="tdcenter"><span>{this.props.game.homegoals}</span></td>
+                <td className="tdcenter">-</td>
+                <td className="tdcenter"><span>{this.props.game.awaygoals}</span></td>
                 <td>
                     {this.props.action =='save' ? (
                         <span>ot<input type="checkbox" checked={this.props.game.overtime} onChange={this.handlechange}/></span>

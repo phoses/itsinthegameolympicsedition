@@ -56,14 +56,13 @@ class App extends Component {
     render() {
         return (
             <HashRouter>
-                <div>
+                <div id="router">
                     <ul className="header">
-                        <li><NavLink exact to={'/'}>Stats</NavLink></li>
-                        <li><NavLink to={'/Newgame'}>New game</NavLink></li>
-                        <li><NavLink to={'/Config'}>Config</NavLink></li>
+                        <li><NavLink exact to={'/'}><i class="fas fa-list-ul"></i></NavLink></li>
+                        <li><NavLink to={'/Newgame'}><i class="fas fa-plus"></i></NavLink></li>
+                        <li><NavLink to={'/Config'}><i class="fas fa-cog"></i></NavLink></li>
                     </ul>
-                    <hr />
-
+                    
                     <div className="content">
                         <Route exact path='/' component={()=> <Stats data={this.state} fetchGames={this.fetchGames}/>} />
                         <Route exact path='/Newgame' component={()=> <Newgame data={this.state}/>} />

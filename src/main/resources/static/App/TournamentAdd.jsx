@@ -46,16 +46,16 @@ class TournamentAdd extends Component {
 
     render() {
         return (
-            <div>
+            <div className="renderContent">
 
                 <h2>Tournaments</h2>
 
                 {this.props.data.tournaments.map(( tournament, i ) =>
-                    <div key={i} onClick={() => this.deleteTournament( tournament )}>
-                        <span>name: {tournament.name}</span>,
-                        <span>win points: {tournament.winpoints}</span>,
-                        <span>OT win points: {tournament.otwinpoints}</span>,
-                        <span>OT lose points: {tournament.otlosepoints}</span>,
+                    <div className="tournamentadd" key={i} onClick={() => this.deleteTournament( tournament )}>
+                        <span className="name">name: {tournament.name}</span><br/>
+                        <span>win points: {tournament.winpoints}</span><br/>
+                        <span>OT win points: {tournament.otwinpoints}</span><br/>
+                        <span>OT lose points: {tournament.otlosepoints}</span><br/>
                         <span>draw points: {tournament.drawpoints}</span>
                     </div>
                 )}
@@ -63,11 +63,11 @@ class TournamentAdd extends Component {
                 <h4>Add new Tournament:</h4>
                 <div>
                     <span>name: <input type="text" name="name" value={this.state.name} onChange={this.handleInputChange}/> </span> <br />
-                    <span>win points: <input type="text" size="3" name="winpoints" value={this.state.winpoints} onChange={this.handleInputChange}/> </span>
-                    <span>OT win points: <input type="text" size="3" name="otwinpoints" value={this.state.otwinpoints} onChange={this.handleInputChange}/> </span>
-                    <span>OT lose points: <input type="text" size="3" name="otlosepoints" value={this.state.otlosepoints} onChange={this.handleInputChange}/> </span>
-                    <span>draw points: <input type="text" size="3" name="drawpoints" value={this.state.drawpoints} onChange={this.handleInputChange}/> </span>
-                    <input type="button" value="save" onClick={this.saveTournament}/>
+                    <span>win points: <input type="text" size="2" name="winpoints" value={this.state.winpoints} onChange={this.handleInputChange}/> </span> <br />
+                    <span>OT win points: <input type="text" size="2" name="otwinpoints" value={this.state.otwinpoints} onChange={this.handleInputChange}/> </span> <br />
+                    <span>OT lose points: <input type="text" size="2" name="otlosepoints" value={this.state.otlosepoints} onChange={this.handleInputChange}/> </span> <br />
+                    <span>draw points: <input type="text" size="2" name="drawpoints" value={this.state.drawpoints} onChange={this.handleInputChange}/> </span> <br />
+                    <input type="button" value="Add" onClick={this.saveTournament}/>
                 </div>
             </div>
         );

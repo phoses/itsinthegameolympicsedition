@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PlayerList from './PlayerList.jsx';
 import GameRow from './GameRow.jsx';
+import TournamentSelect from './TournamentSelect.jsx';
 
 class Newgame extends Component {
     constructor( props ) {
@@ -92,7 +93,7 @@ class Newgame extends Component {
 
     render() {
         return (
-            <div>
+            <div className="renderContent">
                 <h2>Select players</h2>
                 
                 <PlayerList players={this.props.data.players} selectPlayer={this.selectPlayer} />
@@ -113,33 +114,28 @@ class Newgame extends Component {
 class Result extends React.Component {
     render() {
         return (
-            <div>
+            <div className="renderContent">
                 <h3>Game</h3>
                 <button onClick={this.props.clear}>clear</button><br /><br />
 
-                <span>Tournament:</span>
-                <select value={this.props.tournamentindex} onChange={this.props.changeTournament}>
-                    {this.props.data.tournaments.map(( tournament, i ) =>
-                        <option key={i} name="tournament" value={i}>{tournament.name}</option>
-                    )}
-                </select>
-                <table>
+                <TournamentSelect changeTournament={this.props.changeTournament} tournamentindex={this.props.tournamentindex} data={this.props.data}/>
+                <table className="table gamerowtable">
                     <tbody>
                         <tr>
                             <td colSpan="5"></td>
-                            <td><button onClick={() => this.props.changeHomeGoal( 1 )}>+</button></td>
+                            <td className="tdcenter"><button className="gamescorebutton" onClick={() => this.props.changeHomeGoal( 1 )}>+</button></td>
                             <td></td>
-                            <td><button onClick={() => this.props.changeAwayGoal( 1 )}>+</button></td>
+                            <td className="tdcenter"><button className="gamescorebutton" onClick={() => this.props.changeAwayGoal( 1 )}>+</button></td>
                             <td></td>
                         </tr>
                             
-                        <GameRow data={this.props.data} game={this.props.game} action='save' postaction={this.props.clear}/>  
+                        <GameRow data={this.props.data} game={this.props.game} action='Save' postaction={this.props.clear}/>  
                         
                         <tr>
                             <td colSpan="5"></td>
-                            <td><button onClick={() => this.props.changeHomeGoal( -1 )}>-</button></td>
+                            <td className="tdcenter"><button className="gamescorebutton" onClick={() => this.props.changeHomeGoal( -1 )}>-</button></td>
                             <td></td>
-                            <td><button onClick={() => this.props.changeAwayGoal( -1 )}>-</button></td>
+                            <td className="tdcenter"><button className="gamescorebutton" onClick={() => this.props.changeAwayGoal( -1 )}>-</button></td>
                             <td></td>
                         </tr>
                     </tbody>
