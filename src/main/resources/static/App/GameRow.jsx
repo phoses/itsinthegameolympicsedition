@@ -67,7 +67,7 @@ class GameRow extends React.Component {
                 <td className="tdcenter">-</td>
                 <td className="tdcenter"><span>{this.props.game.awaygoals}</span></td>
                 <td>
-                    {this.props.action =='save' ? (
+                    {this.props.action =='Save' ? (
                         <span>ot<input type="checkbox" checked={this.props.game.overtime} onChange={this.handlechange}/></span>
                     ) : (
                         <span>{this.props.game.overtime == true ? 'ot' : ''}</span>    
