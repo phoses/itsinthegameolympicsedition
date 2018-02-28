@@ -42,7 +42,7 @@ class PlayerAdd extends Component {
     render() {
         return (
             <div className="renderContent">
-                <h2>Players</h2>
+                <div className="topic">Players</div>
                 <PlayerList players={this.props.data.players} selectPlayer={this.deletePlayer} />
 
                 <span>Add new player</span> <input type="text" value={this.state.name} name="name" onChange={this.handleInputChange} />

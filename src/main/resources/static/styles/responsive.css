@@ -1,7 +1,15 @@
 @media (min-width:320px)  { /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */ 
 
 	body{
+		font-size:90%;
+	}
+	
+	.tournamenttable, .gamerowtable{
 		font-size:70%;
+	}
+	
+	ul.header{
+		font-size:2em;
 	}
 
 }

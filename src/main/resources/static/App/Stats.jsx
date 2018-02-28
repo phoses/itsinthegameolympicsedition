@@ -77,7 +77,7 @@ class Stats extends Component {
 
                 <TournamentTable scoretables={this.props.data.scoretables} />
 
-                <h3>Games played</h3>
+                <span className="topic">Games played</span>
 
                 <table className="table gamerowtable">
                     <tbody>

@@ -94,7 +94,7 @@ class Newgame extends Component {
     render() {
         return (
             <div className="renderContent">
-                <h2>Select players</h2>
+                <div className="topic">Select players</div>
                 
                 <PlayerList players={this.props.data.players} selectPlayer={this.selectPlayer} />
                 
@@ -115,27 +115,30 @@ class Result extends React.Component {
     render() {
         return (
             <div className="renderContent">
-                <h3>Game</h3>
+                <span className="topic">Game</span><br/>
                 <button onClick={this.props.clear}>clear</button><br /><br />
 
                 <TournamentSelect changeTournament={this.props.changeTournament} tournamentindex={this.props.tournamentindex} data={this.props.data}/>
-                <table className="table gamerowtable">
+                
+                <table className="table newgametable">
                     <tbody>
                         <tr>
-                            <td colSpan="5"></td>
-                            <td className="tdcenter"><button className="gamescorebutton" onClick={() => this.props.changeHomeGoal( 1 )}>+</button></td>
+                            <td colSpan="4"></td>
+                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeHomeGoal( 1 )}><i class="fa fa-plus"></i></span></td>
                             <td></td>
-                            <td className="tdcenter"><button className="gamescorebutton" onClick={() => this.props.changeAwayGoal( 1 )}>+</button></td>
+                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeAwayGoal( 1 )}><i class="fa fa-plus"></i></span></td>
+                            <td>OT</td>
                             <td></td>
                         </tr>
                             
                         <GameRow data={this.props.data} game={this.props.game} action='Save' postaction={this.props.clear}/>  
                         
                         <tr>
-                            <td colSpan="5"></td>
-                            <td className="tdcenter"><button className="gamescorebutton" onClick={() => this.props.changeHomeGoal( -1 )}>-</button></td>
+                            <td colSpan="4"></td>
+                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeHomeGoal( -1 )}><i class="fa fa-minus"></i></span></td>
                             <td></td>
-                            <td className="tdcenter"><button className="gamescorebutton" onClick={() => this.props.changeAwayGoal( -1 )}>-</button></td>
+                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeAwayGoal( -1 )}><i class="fa fa-minus"></i></span></td>
+                            <td></td>
                             <td></td>
                         </tr>
                     </tbody>

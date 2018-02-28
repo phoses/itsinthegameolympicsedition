@@ -66,11 +66,17 @@ ul.header .active {
 
 .table{
 	width:100%;
+	border-spacing:0px;
+	margin-bottom:30px;
 }
 
 .tournamenttable tr td:not(:first-child){
 	text-align:right;
 	padding-left:5px;
+}
+
+.tournamenttable tr:nth-child(even) {
+	background: #F0F0F0;
 }
 
 .gamerowtable tr td:last-child{
@@ -79,6 +85,45 @@ ul.header .active {
 
 .table td.tdcenter{
 	text-align:center;
+}
+
+.table td.tdleft{
+	text-align:left;
+}
+
+.table td.tdright{
+	text-align:right;
+}
+
+.gamerowtable .gamerow{
+	line-height:20px;
+}
+
+.gamerowtable{
+	border-spacing: 0px 0.5rem;
+}
+
+.actionbutton{
+	color: #88c3b8;
+	font-size:2em;
+}
+
+.gamerow .actionbutton{
+
+}
+
+.actionbutton.default{
+	border:1px solid #88c3b8;
+	padding:0px 4px 0px 4px;
+	border-radius: 5px;
+}
+
+.gamerow .actionbutton.save{
+	
+}
+
+.gamerow .actionbutton.delete{
+	color: #aaaaaa;
 }
 
 .player{
@@ -104,6 +149,7 @@ ul.header .active {
 
 .tournamentSelect{
 	width:100%;
+	display:inline-block;
 }
 
 .tournamentSelect .topic{
@@ -130,5 +176,25 @@ ul.header .active {
 
 .tournamentadd .name{
 	font-weight:bold;
-}}
+}
+
+.newgametable{
+	margin-top:20px;
+}
+
+.topic {
+	font-size:1.5em;
+}
+
+input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  padding: 10px;
+}
+
+
 	

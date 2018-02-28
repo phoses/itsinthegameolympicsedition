@@ -48,7 +48,7 @@ class TournamentAdd extends Component {
         return (
             <div className="renderContent">
 
-                <h2>Tournaments</h2>
+                <div className="topic">Tournaments</div>
 
                 {this.props.data.tournaments.map(( tournament, i ) =>
                     <div className="tournamentadd" key={i} onClick={() => this.deleteTournament( tournament )}>
@@ -59,8 +59,8 @@ class TournamentAdd extends Component {
                         <span>draw points: {tournament.drawpoints}</span>
                     </div>
                 )}
-
-                <h4>Add new Tournament:</h4>
+                <br/><br/>
+                <div>Add new Tournament:</div>
                 <div>
                     <span>name: <input type="text" name="name" value={this.state.name} onChange={this.handleInputChange}/> </span> <br />
                     <span>win points: <input type="text" size="2" name="winpoints" value={this.state.winpoints} onChange={this.handleInputChange}/> </span> <br />

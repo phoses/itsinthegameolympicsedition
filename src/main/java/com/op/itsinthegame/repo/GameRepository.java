@@ -10,6 +10,8 @@ import com.op.itsinthegame.dto.Tournament;
 
 public interface GameRepository extends MongoRepository<Game, Long>{
 
+	List<Game> findByTournamentOrderByTimeplayedDesc(@Param("tournament")Tournament tournament);
+	
 	List<Game> findByTournament(@Param("tournament")Tournament tournament);
 	
 	void deleteGameById(String id); 

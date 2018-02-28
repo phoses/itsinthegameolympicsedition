@@ -1,4 +1,4 @@
-package com.op.itsinthegame.repo;
+package com.op.itsinthegame.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,10 +17,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.op.itsinthegame.comparator.ScoretableComparator;
 import com.op.itsinthegame.dto.Game;
 import com.op.itsinthegame.dto.Player;
 import com.op.itsinthegame.dto.Scoretable;
 import com.op.itsinthegame.dto.Tournament;
+import com.op.itsinthegame.repo.GameRepository;
+import com.op.itsinthegame.repo.PlayerRepository;
+import com.op.itsinthegame.repo.TournamentRepository;
 
 @RestController
 @CrossOrigin(methods={RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE})
@@ -37,13 +42,13 @@ public class DataService {
 	@RequestMapping(value="/api/games", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
 	public Iterable<Game> games(){
-		return gameRepository.findAll();
+		return gameRepository.findAll(new Sort(Sort.Direction.DESC, "timeplayed"));
 	}
 	
 	@RequestMapping(value="/api/games/tournament/{id}", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
 	public Iterable<Game> tournamentGames(@PathVariable("id") String id){
-		return gameRepository.findByTournament(tournamentRepository.findById(id));
+		return gameRepository.findByTournamentOrderByTimeplayedDesc(tournamentRepository.findById(id));
 	}
 	
 	@RequestMapping(value="/api/games", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
