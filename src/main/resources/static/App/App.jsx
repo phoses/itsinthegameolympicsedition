@@ -58,9 +58,9 @@ class App extends Component {
             <HashRouter>
                 <div id="router">
                     <ul className="header">
-                        <li><NavLink exact to={'/'}><i class="fas fa-list-ul"></i></NavLink></li>
-                        <li><NavLink to={'/Newgame'}><i class="fas fa-plus"></i></NavLink></li>
-                        <li><NavLink to={'/Config'}><i class="fas fa-cog"></i></NavLink></li>
+                        <li><NavLink exact to={'/'}><i className="fas fa-list-ul"></i></NavLink></li>
+                        <li><NavLink to={'/Newgame'}><i className="fas fa-plus"></i></NavLink></li>
+                        <li><NavLink to={'/Config'}><i className="fas fa-cog"></i></NavLink></li>
                     </ul>
                     
                     <div className="content">

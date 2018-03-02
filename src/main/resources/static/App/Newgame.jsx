@@ -114,7 +114,7 @@ class Newgame extends Component {
 class Result extends React.Component {
     render() {
         return (
-            <div className="renderContent">
+            <div>
                 <span className="topic">Game</span><br/>
                 <button onClick={this.props.clear}>clear</button><br /><br />
 
@@ -124,10 +124,10 @@ class Result extends React.Component {
                     <tbody>
                         <tr>
                             <td colSpan="4"></td>
-                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeHomeGoal( 1 )}><i class="fa fa-plus"></i></span></td>
-                            <td></td>
-                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeAwayGoal( 1 )}><i class="fa fa-plus"></i></span></td>
-                            <td>OT</td>
+                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeHomeGoal( 1 )}><i className="fa fa-plus"></i></span></td>
+                            <td className="tdcenter"></td>
+                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeAwayGoal( 1 )}><i className="fa fa-plus"></i></span></td>
+                            <td className="tdcenter">OT</td>
                             <td></td>
                         </tr>
                             
@@ -135,9 +135,9 @@ class Result extends React.Component {
                         
                         <tr>
                             <td colSpan="4"></td>
-                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeHomeGoal( -1 )}><i class="fa fa-minus"></i></span></td>
+                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeHomeGoal( -1 )}><i className="fa fa-minus"></i></span></td>
                             <td></td>
-                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeAwayGoal( -1 )}><i class="fa fa-minus"></i></span></td>
+                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeAwayGoal( -1 )}><i className="fa fa-minus"></i></span></td>
                             <td></td>
                             <td></td>
                         </tr>

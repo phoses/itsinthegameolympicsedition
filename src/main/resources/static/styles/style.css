@@ -6,7 +6,6 @@
 
 body {
 	background-color: #FFFFFF;
-	padding: 3px;
 	margin: 0;
 	font-family: 'Roboto', sans-serif;
 }
@@ -62,6 +61,10 @@ ul.header .active {
 	width:100%;
 	padding-bottom:30px;
 	background-color:#FFFFFF;
+	padding:20px;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
 .table{
@@ -119,7 +122,7 @@ ul.header .active {
 }
 
 .gamerow .actionbutton.save{
-	
+	font-size:3em;
 }
 
 .gamerow .actionbutton.delete{
@@ -196,5 +199,9 @@ input[type=checkbox]
   padding: 10px;
 }
 
+.masterrefresh{
+	padding-left:30px;
+	font-size:1.5em;
+}
 
 	

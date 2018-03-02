@@ -18,10 +18,16 @@ class Stats extends Component {
 
         this.clear = this.clear.bind( this );
         this.handleChange = this.handleChange.bind( this );
+        this.masterrefresh = this.masterrefresh.bind( this );
     };
 
     clear() {
         this.setState( {} );
+    }
+    
+    masterrefresh(){
+        console.log("master refresh");
+        location.reload(true);
     }
 
     handleChange( event ) {
@@ -67,7 +73,7 @@ class Stats extends Component {
     render() {
         return (
             <div className="renderContent">
-
+                
                 <TournamentSelect
                     changeTournament={this.handleChange}
                     tournamentindex={this.state.selectedtournament}
@@ -77,7 +83,7 @@ class Stats extends Component {
 
                 <TournamentTable scoretables={this.props.data.scoretables} />
 
-                <span className="topic">Games played</span>
+                <span className="topic">Games played</span><span className="masterrefresh" onClick={this.masterrefresh}><i className="fas fa-sync"></i></span>
 
                 <table className="table gamerowtable">
                     <tbody>
