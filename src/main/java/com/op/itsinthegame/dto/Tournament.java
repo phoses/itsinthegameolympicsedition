@@ -1,15 +1,11 @@
 package com.op.itsinthegame.dto;
 
-import java.io.Serializable;
-
 import org.springframework.data.annotation.Id;
 
 import lombok.Data;
 
 @Data
-public class Tournament implements Serializable{
-
-	private static final long serialVersionUID = 1L;
+public class Tournament {
 	
 	@Id
 	private String id;
@@ -23,8 +19,7 @@ public class Tournament implements Serializable{
 		super();
 	}
 
-	public Tournament(String name, Integer winpoints, Integer otwinpoints, Integer otlosepoints,
-			Integer drawpoints) {
+	public Tournament(String name, Integer winpoints, Integer otwinpoints, Integer otlosepoints, Integer drawpoints) {
 		super();
 		this.name = name;
 		this.winpoints = winpoints;

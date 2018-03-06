@@ -43,18 +43,18 @@ public class DatabaseLoader implements CommandLineRunner{
 		gameRepository.save(
 				new Game(
 						DateTime.now().toDate(),
-						new HashSet<Player>(Arrays.asList(playerRepository.findOne(1l))),
-						new HashSet<Player>(Arrays.asList(playerRepository.findOne(2l))),
+						new HashSet<Player>(Arrays.asList(playerRepository.findOne("1"))),
+						new HashSet<Player>(Arrays.asList(playerRepository.findOne("2"))),
 						1, 0,
-						true, tournamentRepository.findOne(1l)));
+						true, tournamentRepository.findOne("1")));
 		
 		gameRepository.save(
 				new Game(
 						DateTime.now().minusDays(5).toDate(),
-						new HashSet<Player>(Arrays.asList(playerRepository.findOne(1l))),
-						new HashSet<Player>(Arrays.asList(playerRepository.findOne(2l))),
+						new HashSet<Player>(Arrays.asList(playerRepository.findOne("1"))),
+						new HashSet<Player>(Arrays.asList(playerRepository.findOne("2"))),
 						1, 0,
-						false, tournamentRepository.findOne(2l)));
+						false, tournamentRepository.findOne("2")));
 	}
 
 }

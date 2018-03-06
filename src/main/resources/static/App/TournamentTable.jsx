@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class TournamentTable extends Component {
+
     render() {
         return (
 
@@ -24,7 +26,11 @@ class TournamentTable extends Component {
 
                     {this.props.scoretables.map(( scoretable, i ) =>
                         <tr key={i}>
-                            <td>{scoretable.player.name}</td>
+                            <td>
+                                <span onClick={() => { this.props.onplayerclick( scoretable.player ) }}>
+                                    {scoretable.player.name}
+                                </span>
+                            </td>
                             <td>{scoretable.gamesplayed}</td>
                             <td>{scoretable.wins}</td>
                             <td>{scoretable.loses}</td>
@@ -32,15 +38,16 @@ class TournamentTable extends Component {
                             <td>{scoretable.otwins}</td>
                             <td>{scoretable.otloses}</td>
                             <td>{scoretable.points}</td>
-                            <td>{Number((scoretable.avggoalsfor).toFixed(1))}</td>
-                            <td>{Number((scoretable.avggoalsagainst).toFixed(1))}</td>
-                            <td>{Number((scoretable.avgpoints).toFixed(1))}</td>
-                            <td>{Number((scoretable.winpros*100).toFixed(1))}</td>
+                            <td>{Number(( scoretable.avggoalsfor ).toFixed( 1 ) )}</td>
+                            <td>{Number(( scoretable.avggoalsagainst ).toFixed( 1 ) )}</td>
+                            <td>{Number(( scoretable.avgpoints ).toFixed( 1 ) )}</td>
+                            <td>{Number(( scoretable.winpros * 100 ).toFixed( 1 ) )}</td>
                         </tr>
                     )}
 
                 </tbody>
             </table>
+
         );
     }
 }

@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.op.itsinthegame.comparator.ScoretableComparator;
 import com.op.itsinthegame.dto.Game;
 import com.op.itsinthegame.dto.Player;
+import com.op.itsinthegame.dto.Playerstats;
+import com.op.itsinthegame.dto.Playerwinpros;
 import com.op.itsinthegame.dto.Scoretable;
 import com.op.itsinthegame.dto.Tournament;
 import com.op.itsinthegame.repo.GameRepository;
@@ -104,6 +106,81 @@ public class DataService {
 	public Iterable<Scoretable> scoretable(){
 		return calculateScoretable(null);
 	}
+	
+	@RequestMapping(value="/api/playerstats/{id}", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
+	@ResponseStatus(HttpStatus.OK)
+	public Playerstats playerstats(@PathVariable("id") String id){
+		
+		Player player = playerRepository.findOne(id);
+		
+		Map<Player, Playerwinpros> withmap = new HashMap<>(); 
+		Map<Player, Playerwinpros> againstmap = new HashMap<>();
+		
+		for(Game game : gameRepository.findByHomeplayersOrAwayplayers(player, player)){
+			
+			if(game.getHomeplayers().contains(player)){
+				for(Player homeplayer : game.getHomeplayers()){
+					if(!homeplayer.equals(player)){
+						if(!withmap.containsKey(homeplayer)){
+							withmap.put(homeplayer, new Playerwinpros(homeplayer));
+						}
+						
+						withmap.get(homeplayer).addGame(game);	
+					}
+				}
+			}else{
+				for(Player homeplayer : game.getHomeplayers()){
+						if(!againstmap.containsKey(homeplayer)){
+							againstmap.put(homeplayer, new Playerwinpros(homeplayer));
+						}
+						
+						againstmap.get(homeplayer).addGame(game);	
+				}
+			}
+			
+			if(game.getAwayplayers().contains(player)){
+				for(Player awayplayer : game.getAwayplayers()){
+					if(!awayplayer.equals(player)){
+						if(!withmap.containsKey(awayplayer)){
+							withmap.put(awayplayer, new Playerwinpros(awayplayer));
+						}
+						
+						withmap.get(awayplayer).addGame(game);	
+					}
+				}	
+			}else{
+				for(Player awayplayer : game.getAwayplayers()){
+					if(!againstmap.containsKey(awayplayer)){
+						againstmap.put(awayplayer, new Playerwinpros(awayplayer));
+					}
+					
+					againstmap.get(awayplayer).addGame(game);	
+				}	
+			}
+		}
+		
+		
+		Playerstats playerstats = new Playerstats();
+		List<Playerwinpros> withPlayers = new ArrayList<>(withmap.values());
+		List<Playerwinpros> againstPlayers = new ArrayList<>(againstmap.values());
+
+		Collections.sort(withPlayers);
+		Collections.sort(againstPlayers);
+		
+		if(!withPlayers.isEmpty()){
+			playerstats.setWinswith(withPlayers.get(0));
+			playerstats.setLoseswith(withPlayers.get(withPlayers.size()-1));
+		}
+		
+		if(!againstPlayers.isEmpty()){
+			playerstats.setWinsagainst(againstPlayers.get(againstPlayers.size()-1));
+			playerstats.setLosesagainst(againstPlayers.get(0));
+		}
+		
+		return playerstats;
+	}
+	
+	
 	
 	@RequestMapping(value="/api/scoretables/tournament/{id}", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)

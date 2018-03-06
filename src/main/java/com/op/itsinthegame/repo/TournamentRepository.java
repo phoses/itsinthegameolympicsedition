@@ -4,7 +4,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.op.itsinthegame.dto.Tournament;
 
-public interface TournamentRepository extends MongoRepository<Tournament, Long>{
+public interface TournamentRepository extends MongoRepository<Tournament, String>{
 
 	void deleteTournamentById(String id); 
 	

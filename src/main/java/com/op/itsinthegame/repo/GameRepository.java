@@ -6,13 +6,16 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.op.itsinthegame.dto.Game;
+import com.op.itsinthegame.dto.Player;
 import com.op.itsinthegame.dto.Tournament;
 
-public interface GameRepository extends MongoRepository<Game, Long>{
+public interface GameRepository extends MongoRepository<Game, String>{
 
 	List<Game> findByTournamentOrderByTimeplayedDesc(@Param("tournament")Tournament tournament);
 	
 	List<Game> findByTournament(@Param("tournament")Tournament tournament);
+	
+	List<Game> findByHomeplayersOrAwayplayers(Player player, Player awayplayer);
 	
 	void deleteGameById(String id); 
 }

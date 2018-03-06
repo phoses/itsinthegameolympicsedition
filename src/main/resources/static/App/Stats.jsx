@@ -4,6 +4,7 @@ import * as functions from "./Functions.jsx";
 import axios from 'axios';
 import TournamentTable from './TournamentTable.jsx';
 import TournamentSelect from './TournamentSelect.jsx';
+import Playerstats from './Playerstats.jsx';
 
 class Stats extends Component {
     componentWillMount() {
@@ -13,21 +14,48 @@ class Stats extends Component {
     constructor( props ) {
         super( props );
         this.state = {
-            tournamentindex: -1
+            tournamentindex: -1,
+            playerstatsvisible: false,
+            player: null,
+            playerstats: {
+                "winswith": null,
+                "loseswith": null,
+                "winsagainst": null,
+                "losesagainst": null
+            }
         }
 
         this.clear = this.clear.bind( this );
         this.handleChange = this.handleChange.bind( this );
         this.masterrefresh = this.masterrefresh.bind( this );
+        this.playerclick = this.playerclick.bind( this );
     };
 
     clear() {
         this.setState( {} );
     }
-    
+        
     masterrefresh(){
         console.log("master refresh");
         location.reload(true);
+    }
+        
+    playerclick(player){
+        console.log("fetch playerstats " + player.name);
+        this.setState( {player: player });
+        
+        axios.get( this.props.data.apilocation + '/api/playerstats/' + player.id ).then(( response ) => {
+            console.log( "fetched playerstats : " + JSON.stringify( response ) );
+
+            console.log("this.props.playerstats " + JSON.stringify(response.data));
+//            console.log("this.props.playerstats.winswith !== null" + JSON.stringify(response.data).playerstats.winswith == undefined);
+            
+            this.setState( {
+                player: player,
+                playerstatsvisible: true,
+                playerstats: response.data
+            } );
+        } );
     }
 
     handleChange( event ) {
@@ -67,6 +95,10 @@ class Stats extends Component {
                 this.setState( {} );
             } );
         }
+        
+        if(this.state.player != undefined && this.state.playerstatsvisible){
+            this.playerclick(this.state.player);
+        }
 
     }
 
@@ -81,8 +113,12 @@ class Stats extends Component {
                     emptySelect={true}
                 />
 
-                <TournamentTable scoretables={this.props.data.scoretables} />
-
+                <TournamentTable data={this.props.data} scoretables={this.props.data.scoretables} onplayerclick={this.playerclick}/>
+                   
+                {this.state.playerstatsvisible && 
+                    <Playerstats playerstats={this.state.playerstats} hide={() => {this.setState({playerstatsvisible:false})} } player={this.state.player}/>
+                }
+                
                 <span className="topic">Games played</span><span className="masterrefresh" onClick={this.masterrefresh}><i className="fas fa-sync"></i></span>
 
                 <table className="table gamerowtable">
