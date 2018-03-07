@@ -36,7 +36,6 @@ class Stats extends Component {
                 
     playerclick(player){
         console.log("fetch playerstats " + player.name);
-        this.setState( {player: player });
         
         axios.get( this.props.data.apilocation + '/api/playerstats/' + player.id ).then(( response ) => {
             console.log( "fetched playerstats : " + JSON.stringify( response ) );

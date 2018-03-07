@@ -19,7 +19,7 @@ class Playerstats extends Component {
                             {this.props.playerstats.loseswith !== null &&
                                 <tr>
                                     <td>Loses with:</td>
-                                    <td>{this.props.playerstats.loseswith.player.name} ({Number(( this.props.playerstats.loseswith.winpros * 100 ).toFixed( 1 ) )}%)</td>
+                                    <td>{this.props.playerstats.loseswith.player.name} ({Number(( this.props.playerstats.loseswith.losepros * 100 ).toFixed( 1 ) )}%)</td>
                                 </tr>
                             }        
     
