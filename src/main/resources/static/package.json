@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/phoses/itsinthegameolympicsedition#readme",
   "dependencies": {
+    "acorn": "^5.5.1",
     "axios": "^0.18.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -29,8 +30,8 @@
     "react-moment": "^0.7.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
+    "uglifyjs-webpack-plugin": "^1.2.2",
     "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.11.1",
-    "uglifyjs-webpack-plugin": "^1.2.2"
+    "webpack-dev-server": "^2.11.1"
   }
 }
