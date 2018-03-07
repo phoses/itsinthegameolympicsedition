@@ -18,7 +18,7 @@ class Newgame extends Component {
                 overtime: false 
             },
             tournamentindex:0,
-            random:false,
+            random:true,
             evenfill:true
         }
 
