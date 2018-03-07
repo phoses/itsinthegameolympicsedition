@@ -208,3 +208,15 @@ input[type=checkbox]
 	padding-bottom: 30px;
 	
 }	
+
+.playerselecttoken{
+	float:left;
+	font-size:2em;
+	width:50%;
+	text-align:center;
+	color: #c5c5c5;
+}
+
+.playerselecttoken.selected{
+	color: #60a5fd;
+}

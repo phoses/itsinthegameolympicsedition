@@ -27,19 +27,13 @@ class Stats extends Component {
 
         this.clear = this.clear.bind( this );
         this.handleChange = this.handleChange.bind( this );
-        this.masterrefresh = this.masterrefresh.bind( this );
         this.playerclick = this.playerclick.bind( this );
     };
 
     clear() {
         this.setState( {} );
     }
-        
-    masterrefresh(){
-        console.log("master refresh");
-        location.reload(true);
-    }
-        
+                
     playerclick(player){
         console.log("fetch playerstats " + player.name);
         this.setState( {player: player });
@@ -119,7 +113,7 @@ class Stats extends Component {
                     <Playerstats playerstats={this.state.playerstats} hide={() => {this.setState({playerstatsvisible:false})} } player={this.state.player}/>
                 }
                 
-                <span className="topic">Games played</span><span className="masterrefresh" onClick={this.masterrefresh}><i className="fas fa-sync"></i></span>
+                <span className="topic">Games played</span>
 
                 <table className="table gamerowtable">
                     <tbody>
