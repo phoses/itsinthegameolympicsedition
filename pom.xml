@@ -66,6 +66,15 @@
 			<artifactId>joda-time</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -74,9 +83,9 @@
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 				<excludes>
-                	<exclude>static/node/**</exclude>
-                	<exclude>static/node_modules/**</exclude>
-            	</excludes>
+					<exclude>static/node/**</exclude>
+					<exclude>static/node_modules/**</exclude>
+				</excludes>
 			</resource>
 		</resources>
 
@@ -103,7 +112,7 @@
 						<goals>
 							<goal>install-node-and-npm</goal>
 						</goals>
-						
+
 						<phase>generate-resources</phase>
 					</execution>
 					<execution>
@@ -111,7 +120,7 @@
 						<goals>
 							<goal>npm</goal>
 						</goals>
-						
+
 						<phase>generate-resources</phase>
 					</execution>
 					<execution>
@@ -119,9 +128,9 @@
 						<goals>
 							<goal>webpack</goal>
 						</goals>
-						
+
 						<phase>generate-resources</phase>
-						
+
 						<configuration>
 							<arguments>-p</arguments>
 						</configuration>

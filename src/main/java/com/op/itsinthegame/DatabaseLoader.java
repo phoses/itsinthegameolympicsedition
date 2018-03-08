@@ -17,7 +17,7 @@ import com.op.itsinthegame.repo.PlayerRepository;
 import com.op.itsinthegame.repo.TournamentRepository;
 
 @Component
-@Profile("dev")
+@Profile("noMongo")
 public class DatabaseLoader implements CommandLineRunner{
 
 	@Autowired
