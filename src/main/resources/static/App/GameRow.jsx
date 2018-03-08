@@ -55,9 +55,9 @@ class GameRow extends React.Component {
                 <td className="tdright" style={(this.props.game.id === undefined) ? {width:'20%'} : {}}>
                     {this.props.game.homeplayers.map(( player, i ) => {
                             if( this.props.game.id != undefined)
-                                return <span key={i}>{i > 0 ? '  ' : ''} {player.name}</span>
+                                return <span key={i}>{i > 0 ? '  ' : ''} {player != null ? player.name : ''}</span>
                         
-                                return <div key={i}>{i > 0 ? '  ' : ''} {player.name}</div>
+                                return <div key={i}>{i > 0 ? '  ' : ''} {player != null ? player.name : ''}</div>
                         
                         }
                     )}
@@ -66,9 +66,9 @@ class GameRow extends React.Component {
                 <td className="tdleft" style={(this.props.game.id === undefined) ? {width:'20%'} : {}}>
                     {this.props.game.awayplayers.map(( player, i ) =>{
                         if( this.props.game.id != undefined)
-                            return <span key={i}>{i > 0 ? '  ' : ''} {player.name}</span>
+                            return <span key={i}>{i > 0 ? '  ' : ''} {player != null ? player.name : ''}</span>
                     
-                            return <div key={i}>{i > 0 ? '  ' : ''} {player.name}</div>
+                            return <div key={i}>{i > 0 ? '  ' : ''} {player != null ? player.name : ''}</div>
                     
                     }
                     )}
