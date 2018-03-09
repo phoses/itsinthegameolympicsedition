@@ -12,14 +12,12 @@ class GameRow extends React.Component {
     };
 
     action() {
-        console.log( "action :" + this.props.action )
+        console.log( "newgame :" + this.props.newgame )
         console.log( "game :" + this.props.game.timeplayed );
 
-        if ( this.props.action == 'Save' ) {
+        if ( this.props.newgame ) {
             this.savegame();
-        }
-
-        if ( this.props.action == 'Delete' ) {
+        } else {
             this.deletegame();
         }
 
@@ -45,40 +43,40 @@ class GameRow extends React.Component {
 
     render() {
         return (
-            <tr className="gamerow">
+            <tr className={"gamerow " + (this.props.newgame ? "newgame" : "gamelist")}>
 
                 {this.props.game.id != undefined &&
                     <td>
                         <Moment format="DD.MM.YYYY HH:mm">{this.props.game.timeplayed}</Moment>
                     </td>
                 }
-                <td className="tdright" style={(this.props.game.id === undefined) ? {width:'20%'} : {}}>
+                <td className="tdright" style={( this.props.newgame ) ? { width: '20%' } : {}}>
                     {this.props.game.homeplayers.map(( player, i ) => {
-                            if( this.props.game.id != undefined)
-                                return <span key={i}>{i > 0 ? '  ' : ''} {player != null ? player.name : ''}</span>
-                        
-                                return <div key={i}>{i > 0 ? '  ' : ''} {player != null ? player.name : ''}</div>
-                        
-                        }
-                    )}
-                </td>
-                <td className="tdcenter">-</td>
-                <td className="tdleft" style={(this.props.game.id === undefined) ? {width:'20%'} : {}}>
-                    {this.props.game.awayplayers.map(( player, i ) =>{
-                        if( this.props.game.id != undefined)
-                            return <span key={i}>{i > 0 ? '  ' : ''} {player != null ? player.name : ''}</span>
-                    
-                            return <div key={i}>{i > 0 ? '  ' : ''} {player != null ? player.name : ''}</div>
-                    
+                        if ( this.props.newgame )
+                            return <div className="name" key={i}>{i > 0 ? '  ' : ''} {player != null ? player.name : ''}</div>
+
+                        return <span key={i}>{i > 0 ? '  ' : ''} {player != null ? player.name : ''}</span>
+
                     }
                     )}
                 </td>
-                <td className="tdcenter">:</td>
+                <td className="tdcenter">-</td>
+                <td className="tdleft" style={( this.props.newgame ) ? { width: '20%' } : {}}>
+                    {this.props.game.awayplayers.map(( player, i ) => {
+                        if ( this.props.newgame )
+                            return <div className="name" key={i}>{i > 0 ? '  ' : ''} {player != null ? player.name : ''}</div>
+
+                        return <span key={i}>{i > 0 ? '  ' : ''} {player != null ? player.name : ''}</span>
+
+                    }
+                    )}
+                </td>
+                <td className="tdcenter"></td>
                 <td className="tdcenter"><span>{this.props.game.homegoals}</span></td>
                 <td className="tdcenter">-</td>
                 <td className="tdcenter"><span>{this.props.game.awaygoals}</span></td>
                 <td className="tdcenter">
-                    {this.props.action == 'Save' ? (
+                    {this.props.newgame ? (
                         <input type="checkbox" checked={this.props.game.overtime} onChange={this.handlechange} />
                     ) : (
                             <span>{this.props.game.overtime == true ? 'ot' : ''}</span>
@@ -86,7 +84,7 @@ class GameRow extends React.Component {
 
                 </td>
                 <td className="tdright">
-                    {this.props.action == 'Save' ? (
+                    {this.props.newgame ? (
                         <span className="actionbutton save" onClick={this.action}><i className="far fa-save"></i></span>
                     ) : (
                             <span className="actionbutton delete" onClick={this.action}><i className="far fa-trash-alt"></i></span>

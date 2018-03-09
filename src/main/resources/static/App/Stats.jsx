@@ -117,7 +117,7 @@ class Stats extends Component {
                 <table className="table gamerowtable">
                     <tbody>
                         {this.props.data.games.map(( game, i ) =>
-                            <GameRow key={i} game={game} action='Delete' data={this.props.data} postaction={this.handleChange} />
+                            <GameRow key={i} game={game} newgame={false} data={this.props.data} postaction={this.handleChange} />
                         )}
                     </tbody>
                 </table>

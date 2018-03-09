@@ -112,7 +112,15 @@ ul.header .active {
 }
 
 .gamerow .actionbutton{
+	
+}
 
+.gamerow.gamelist{
+	font-size:1.1em;
+}
+
+.gamerow.newgame .name{
+	font-size:1.1em;
 }
 
 .actionbutton.default{
@@ -138,7 +146,13 @@ ul.header .active {
 	display:inline-block;
 }
 
+div.center{
+	text-align:center;
+}
 
+div.newgame{
+	margin-top:20px;
+}
 
 .gamescorebutton{
 	margin:5px;

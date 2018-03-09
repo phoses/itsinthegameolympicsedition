@@ -15,11 +15,11 @@ class Newgame extends Component {
                 homegoals: 0,
                 awaygoals: 0,
                 tournament: '',
-                overtime: false 
+                overtime: false
             },
-            tournamentindex:0,
-            random:true,
-            evenfill:true
+            tournamentindex: 0,
+            random: true,
+            evenfill: true
         }
 
         this.selectPlayer = this.selectPlayer.bind( this );
@@ -46,16 +46,17 @@ class Newgame extends Component {
             this.setState( {} );
         }
     }
-    
-    changeTournament( event ){
-        
+
+    changeTournament( event ) {
+
         this.state.tournamentindex = event.target.value;
         this.state.game.tournament = this.props.data.tournaments[this.state.tournamentindex];
-        
-        console.log(JSON.stringify(event.target.value));
+
+        console.log( JSON.stringify( event.target.value ) );
     }
 
     clear() {
+        console.log("clear new game");
         this.setState( {
             game: {
                 homeplayers: [],
@@ -63,41 +64,41 @@ class Newgame extends Component {
                 homegoals: 0,
                 awaygoals: 0,
                 tournament: '',
-                overtime: false    
+                overtime: false
             }
         }
         );
     }
 
     selectPlayer( player ) {
-        
-        if ( this.state.game.homeplayers.length == 0 && this.state.game.awayplayers.length == 0) {
+
+        if ( this.state.game.homeplayers.length == 0 && this.state.game.awayplayers.length == 0 ) {
             this.state.game.timeplayed = new Date().getTime();
             this.state.game.tournament = this.props.data.tournaments[0];
         }
-        
+
         if ( this.state.game.homeplayers.includes( player )
-            || this.state.game.awayplayers.includes( player ) 
-            || this.state.game.homeplayers.length + this.state.game.awayplayers.length == 4) {
+            || this.state.game.awayplayers.includes( player )
+            || this.state.game.homeplayers.length + this.state.game.awayplayers.length == 4 ) {
             return;
         }
 
         console.log( "selectPlayer " + player );
 
-        if(this.state.random){
-            if((Math.random()*100 > 50 && this.state.game.homeplayers.length < 2) || this.state.game.awayplayers.length == 2){
+        if ( this.state.random ) {
+            if ( ( Math.random() * 100 > 50 && this.state.game.homeplayers.length < 2 ) || this.state.game.awayplayers.length == 2 ) {
                 this.state.game.homeplayers.push( player );
-            }else{
+            } else {
                 this.state.game.awayplayers.push( player );
             }
         }
-        else if(this.state.evenfill){
+        else if ( this.state.evenfill ) {
             if ( this.state.game.homeplayers.length < 2 ) {
                 this.state.game.homeplayers.push( player );
             } else {
                 this.state.game.awayplayers.push( player );
             }
-        }else{
+        } else {
             if ( this.state.game.homeplayers.length <= this.state.game.awayplayers.length ) {
                 this.state.game.homeplayers.push( player );
             } else {
@@ -113,19 +114,19 @@ class Newgame extends Component {
     render() {
         return (
             <div className="renderContent">
-                <div onClick={() =>{this.setState({random:!this.state.random})}} className={"playerselecttoken " + (this.state.random ? 'selected' : '')}><i className="fas fa-random"></i></div>
-                <div onClick={() =>{this.setState({evenfill:!this.state.evenfill})}} className={"playerselecttoken " + (this.state.evenfill ? 'selected' : '')}><i className="fas fa-th-list"></i></div>
+                <div onClick={() => { this.setState( { random: !this.state.random } ) }} className={"playerselecttoken " + ( this.state.random ? 'selected' : '' )}><i className="fas fa-random"></i></div>
+                <div onClick={() => { this.setState( { evenfill: !this.state.evenfill } ) }} className={"playerselecttoken " + ( this.state.evenfill ? 'selected' : '' )}><i className="fas fa-th-list"></i></div>
                 <div className="topic">Select players</div>
-                
+
                 <PlayerList players={this.props.data.players} selectPlayer={this.selectPlayer} />
-                
+
                 {this.state.game.timeplayed != undefined &&
                     <Result game={this.state.game}
                         clear={this.clear}
                         changeHomeGoal={this.changeHomeGoal}
-                        changeAwayGoal={this.changeAwayGoal} 
+                        changeAwayGoal={this.changeAwayGoal}
                         changeTournament={this.changeTournament}
-                        data={this.props.data}/>
+                        data={this.props.data} />
                 }
             </div>
         );
@@ -135,12 +136,10 @@ class Newgame extends Component {
 class Result extends React.Component {
     render() {
         return (
-            <div>
-                <span className="topic">Game</span><br/>
-                <button onClick={this.props.clear}>clear</button><br /><br />
+            <div className="newgame">
 
-                <TournamentSelect changeTournament={this.props.changeTournament} tournamentindex={this.props.tournamentindex} data={this.props.data}/>
-                
+                <TournamentSelect changeTournament={this.props.changeTournament} tournamentindex={this.props.tournamentindex} data={this.props.data} />
+
                 <table className="table newgametable">
                     <tbody>
                         <tr>
@@ -151,9 +150,9 @@ class Result extends React.Component {
                             <td className="tdcenter">OT</td>
                             <td></td>
                         </tr>
-                            
-                        <GameRow data={this.props.data} game={this.props.game} action='Save' postaction={this.props.clear}/>  
-                        
+
+                        <GameRow data={this.props.data} game={this.props.game} newgame={true} postaction={this.props.clear} />
+
                         <tr>
                             <td colSpan="4"></td>
                             <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeHomeGoal( -1 )}><i className="fa fa-minus"></i></span></td>
@@ -164,6 +163,10 @@ class Result extends React.Component {
                         </tr>
                     </tbody>
                 </table>
+
+                <div className="center">
+                    <span className="actionbutton" onClick={() => this.props.clear()}><i className="fa fa-undo"></i></span>
+                </div>
             </div>
         );
     }
