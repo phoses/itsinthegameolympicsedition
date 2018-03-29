@@ -38,10 +38,10 @@ class TournamentTable extends Component {
                             <td>{scoretable.otwins}</td>
                             <td>{scoretable.otloses}</td>
                             <td>{scoretable.points}</td>
-                            <td>{Number(( scoretable.avggoalsfor ).toFixed( 1 ) )}</td>
-                            <td>{Number(( scoretable.avggoalsagainst ).toFixed( 1 ) )}</td>
-                            <td>{Number(( scoretable.avgpoints ).toFixed( 1 ) )}</td>
-                            <td>{Number(( scoretable.winpros * 100 ).toFixed( 1 ) )}</td>
+                            <td>{Number(( scoretable.avggoalsfor ).toFixed( 2 ) )}</td>
+                            <td>{Number(( scoretable.avggoalsagainst ).toFixed( 2 ) )}</td>
+                            <td>{Number(( scoretable.avgpoints ).toFixed( 2 ) )}</td>
+                            <td>{Number(( scoretable.winpros * 100 ).toFixed( 2 ) )}</td>
                         </tr>
                     )}
 
