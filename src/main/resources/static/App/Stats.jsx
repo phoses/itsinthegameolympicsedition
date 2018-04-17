@@ -22,12 +22,15 @@ class Stats extends Component {
                 "loseswith": null,
                 "winsagainst": null,
                 "losesagainst": null
-            }
+            },
+            formCount: 0
         }
 
         this.clear = this.clear.bind( this );
         this.handleChange = this.handleChange.bind( this );
+        this.handleTournamentChange = this.handleTournamentChange.bind( this );
         this.playerclick = this.playerclick.bind( this );
+        this.handleFormChange = this.handleFormChange.bind( this );
     };
 
     clear() {
@@ -51,7 +54,7 @@ class Stats extends Component {
         } );
     }
 
-    handleChange( event ) {
+    handleTournamentChange( event ) {
 
         var selectedTournament = undefined;
         if ( event != undefined ) {
@@ -62,6 +65,27 @@ class Stats extends Component {
                 var selectedTournament = this.props.data.tournaments[this.state.tournamentindex];
             }
         }
+        
+        this.handleChange();
+    }
+    
+    handleFormChange( newForm ) {
+        this.state.formCount = newForm;
+        
+        this.handleChange();
+    }
+    
+    handleChange() {
+
+        var selectedTournament = undefined;
+        if ( this.state.tournamentindex > -1 ) {
+            var selectedTournament = this.props.data.tournaments[this.state.tournamentindex];
+        }
+        
+        var formurl="";
+        if(this.state.formCount > 0){
+            formurl = "/playergamecount/"+this.state.formCount;
+        }
 
         if ( selectedTournament != undefined ) {
             axios.get( this.props.data.apilocation + '/api/games/tournament/' + selectedTournament.id ).then(( response ) => {
@@ -70,7 +94,7 @@ class Stats extends Component {
                 this.setState( {} );
             } );
 
-            axios.get( this.props.data.apilocation + '/api/scoretables/tournament/' + selectedTournament.id ).then(( response ) => {
+            axios.get( this.props.data.apilocation + '/api/scoretables/tournament/' + selectedTournament.id + formurl ).then(( response ) => {
                 console.log( "fetched scoretables : " + JSON.stringify( response ) );
                 this.props.data.scoretables = response.data;
                 this.setState( {} );
@@ -82,7 +106,7 @@ class Stats extends Component {
                 this.setState( {} );
             } );
 
-            axios.get( this.props.data.apilocation + '/api/scoretables' ).then(( response ) => {
+            axios.get( this.props.data.apilocation + '/api/scoretables' + formurl ).then(( response ) => {
                 console.log( "fetched scoretables : " + JSON.stringify( response ) );
                 this.props.data.scoretables = response.data;
                 this.setState( {} );
@@ -100,12 +124,20 @@ class Stats extends Component {
             <div className="renderContent">
                 
                 <TournamentSelect
-                    changeTournament={this.handleChange}
+                    changeTournament={this.handleTournamentChange}
                     tournamentindex={this.state.selectedtournament}
                     data={this.props.data}
                     emptySelect={true}
                 />
+                
+                <br/> <br/>
 
+                <div className="right">
+                    <span className={"tournamentformselect left " +  (this.state.formCount == 0 ? 'selected' : '')} onClick={() => { this.handleFormChange(0) }}>All</span>
+                    <span className={"tournamentformselect " +  (this.state.formCount == 6 ? 'selected' : '')} onClick={() => { this.handleFormChange(6) }}>6</span>
+                    <span className={"tournamentformselect right " +  (this.state.formCount == 12 ? 'selected' : '')} onClick={() => { this.handleFormChange(12) }}>12</span>
+                </div>
+                    
                 <TournamentTable data={this.props.data} scoretables={this.props.data.scoretables} onplayerclick={this.playerclick}/>
                    
                 {this.state.playerstatsvisible && 

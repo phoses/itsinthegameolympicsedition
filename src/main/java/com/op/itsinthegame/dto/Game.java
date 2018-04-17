@@ -1,6 +1,7 @@
 package com.op.itsinthegame.dto;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
@@ -34,6 +35,15 @@ public class Game{
 		this.awaygoals = awaygoals;
 		this.overtime = overtime;
 		this.tournament = tournament;
+	}
+	
+	public Set<Player> getAllPlayers(){
+		
+		Set<Player> allPlayers = new HashSet<>();
+		allPlayers.addAll(homeplayers);
+		allPlayers.addAll(awayplayers);
+		
+		return allPlayers;
 	}
 
 }

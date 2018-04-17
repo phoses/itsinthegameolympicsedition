@@ -149,6 +149,9 @@ ul.header .active {
 div.center{
 	text-align:center;
 }
+div.right{
+	text-align:right;
+}
 
 div.newgame{
 	margin-top:20px;
@@ -233,4 +236,28 @@ input[type=checkbox]
 
 .playerselecttoken.selected{
 	color: #60a5fd;
+}
+
+.tournamentformselect{
+	text-align:center;
+	display:inline-block;
+	width:20%;
+	border-style: solid;
+	border-width:1px;
+	border-color: black;
+}
+
+.tournamentformselect.selected{
+	background-color: #0099FF;
+	color:white;
+}	
+
+.tournamentformselect.right{
+	border-radius: 0px 5px 5px 0px;
+	border-width: 1px 1px 1px 0px;
+}
+
+.tournamentformselect.left{
+	border-radius: 5px 0px 0px 5px;
+	border-width: 1px 0px 1px 1px;
 }
