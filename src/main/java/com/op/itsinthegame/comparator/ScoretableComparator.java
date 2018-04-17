@@ -12,9 +12,9 @@ public class ScoretableComparator implements Comparator<Scoretable>{
 		if(o1.getAvgpoints().compareTo(o2.getAvgpoints()) == 0){
 			if(o1.getWinpros().compareTo(o2.getWinpros()) == 0){
 				if(o1.getAvggoalsfor().compareTo(o2.getAvggoalsfor()) == 0){
-					return o1.getAvggoalsagainst().compareTo(o2.getAvggoalsagainst());
+					return o1.getAvggoalsagainst().compareTo(o2.getAvggoalsagainst()) * -1;
 				}else{
-					return o1.getAvggoalsfor().compareTo(o2.getAvggoalsfor());
+					return o1.getAvggoalsfor().compareTo(o2.getAvggoalsfor()) * -1;
 				}
 			}else{
 				return o1.getWinpros().compareTo(o2.getWinpros()) * -1;				
