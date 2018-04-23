@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -43,14 +44,26 @@ public class DataService {
 	
 	@RequestMapping(value="/api/games", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public Iterable<Game> games(){
+	public Iterable<Game> gamesCurrentWeek(){
 		return gameRepository.findAll(new Sort(Sort.Direction.DESC, "timeplayed"));
+	}
+	
+	@RequestMapping(value="/api/games/currentweek", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
+	@ResponseStatus(HttpStatus.OK)
+	public Iterable<Game> games(){
+		return filterToCurrentWeekGames(gameRepository.findAll(new Sort(Sort.Direction.DESC, "timeplayed")));
 	}
 	
 	@RequestMapping(value="/api/games/tournament/{id}", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
 	public Iterable<Game> tournamentGames(@PathVariable("id") String id){
 		return gameRepository.findByTournamentOrderByTimeplayedDesc(tournamentRepository.findById(id));
+	}
+	
+	@RequestMapping(value="/api/games/tournament/{id}/currentweek", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
+	@ResponseStatus(HttpStatus.OK)
+	public Iterable<Game> tournamentGamesCurrentWeek(@PathVariable("id") String id){
+		return filterToCurrentWeekGames(gameRepository.findByTournamentOrderByTimeplayedDesc(tournamentRepository.findById(id)));
 	}
 	
 	@RequestMapping(value="/api/games", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
@@ -105,6 +118,12 @@ public class DataService {
 	@ResponseStatus(HttpStatus.OK)
 	public Iterable<Scoretable> scoretable(){
 		return createScoretable();
+	}
+	
+	@RequestMapping(value="/api/scoretables/currentweek", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
+	@ResponseStatus(HttpStatus.OK)
+	public Iterable<Scoretable> scoretableCurrentweek(){
+		return createScoretableCurrentweek();
 	}
 	
 	@RequestMapping(value="/api/scoretables/playergamecount/{gamecount}", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
@@ -200,12 +219,22 @@ public class DataService {
 		return createScoretable(id, gamecount);
 	}
 	
+	@RequestMapping(value="/api/scoretables/tournament/{id}/currentweek", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
+	@ResponseStatus(HttpStatus.OK)
+	public Iterable<Scoretable> tournamentScoretableCurrentWeek(@PathVariable("id") String id){
+		return createScoretableCurrentWeek(id);
+	}
+	
 	private Iterable<Scoretable> createScoretable(String tournamentId){
 		return createScoretable(tournamentId, Integer.MAX_VALUE);
 	}
 	
 	private Iterable<Scoretable> createScoretable(){
 		return createScoretable(null, Integer.MAX_VALUE);
+	}
+	
+	private Iterable<Scoretable> createScoretableCurrentweek(){
+		return createScoretableCurrentWeek(null);
 	}
 	
 	private Iterable<Scoretable> createScoretable(Integer playerGameCount){
@@ -222,6 +251,37 @@ public class DataService {
 		}	
 				
 		return calculateScoretable(games, playerGameCount);
+	}
+	
+	private Iterable<Scoretable> createScoretableCurrentWeek(String tournamentId){
+		Iterable<Game> games;
+				
+		if(tournamentId == null){
+			games = gameRepository.findAllByOrderByTimeplayedDesc();
+		}else{
+			games = gameRepository.findByTournamentOrderByTimeplayedDesc(tournamentRepository.findById(tournamentId));
+		}	
+		
+		List<Game> currentWeekGames = filterToCurrentWeekGames(games);
+				
+		return calculateScoretable(currentWeekGames, Integer.MAX_VALUE);
+	}
+
+	private List<Game> filterToCurrentWeekGames(Iterable<Game> games) {
+		List<Game> currentWeekGames = new ArrayList<>();
+		
+		DateTime currentWeek = DateTime.now();
+		
+		for(Game game : games){
+			
+			DateTime gameWeek = new DateTime(game.getTimeplayed());
+			
+			if(currentWeek.getWeekOfWeekyear() == gameWeek.getWeekOfWeekyear()){
+				currentWeekGames.add(game);
+			}
+	
+		}
+		return currentWeekGames;
 	}
 
 	private Iterable<Scoretable> calculateScoretable(Iterable<Game> games, Integer playerGameCount){

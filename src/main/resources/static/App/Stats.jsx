@@ -83,12 +83,18 @@ class Stats extends Component {
         }
         
         var formurl="";
+        var gamesFormurl = "";
         if(this.state.formCount > 0){
-            formurl = "/playergamecount/"+this.state.formCount;
+            if(this.state.formCount == 777){
+                formurl = "/currentweek";   
+                gamesFormurl = "/currentweek";
+            }else{
+                formurl = "/playergamecount/"+this.state.formCount;     
+            }
         }
 
         if ( selectedTournament != undefined ) {
-            axios.get( this.props.data.apilocation + '/api/games/tournament/' + selectedTournament.id ).then(( response ) => {
+            axios.get( this.props.data.apilocation + '/api/games/tournament/' + selectedTournament.id + gamesFormurl ).then(( response ) => {
                 console.log( "fetched games : " + JSON.stringify( response ) );
                 this.props.data.games = response.data;
                 this.setState( {} );
@@ -100,7 +106,7 @@ class Stats extends Component {
                 this.setState( {} );
             } );
         } else {
-            axios.get( this.props.data.apilocation + '/api/games' ).then(( response ) => {
+            axios.get( this.props.data.apilocation + '/api/games' + gamesFormurl ).then(( response ) => {
                 console.log( "fetched games : " + JSON.stringify( response ) );
                 this.props.data.games = response.data;
                 this.setState( {} );
@@ -135,7 +141,8 @@ class Stats extends Component {
                 <div className="right">
                     <span className={"tournamentformselect left " +  (this.state.formCount == 0 ? 'selected' : '')} onClick={() => { this.handleFormChange(0) }}>All</span>
                     <span className={"tournamentformselect " +  (this.state.formCount == 6 ? 'selected' : '')} onClick={() => { this.handleFormChange(6) }}>6</span>
-                    <span className={"tournamentformselect right " +  (this.state.formCount == 12 ? 'selected' : '')} onClick={() => { this.handleFormChange(12) }}>12</span>
+                    <span className={"tournamentformselect " +  (this.state.formCount == 12 ? 'selected' : '')} onClick={() => { this.handleFormChange(12) }}>12</span>   
+                    <span className={"tournamentformselect right " +  (this.state.formCount == 777 ? 'selected' : '')} onClick={() => { this.handleFormChange(777) }}>Weekly</span>
                 </div>
                     
                 <TournamentTable data={this.props.data} scoretables={this.props.data.scoretables} onplayerclick={this.playerclick}/>
