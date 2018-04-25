@@ -17,7 +17,7 @@ class TournamentTable extends Component {
                         <td>D</td>
                         <td>OTW</td>
                         <td>OTL</td>
-                        <td>PTS</td>
+                        <td colspan="2" className="center">STR</td>
                         <td>A.GF</td>
                         <td>A.GA</td>
                         <td>A.PTS</td>
@@ -37,7 +37,8 @@ class TournamentTable extends Component {
                             <td>{scoretable.draws}</td>
                             <td>{scoretable.otwins}</td>
                             <td>{scoretable.otloses}</td>
-                            <td>{scoretable.points}</td>
+                            <td>{scoretable.streakCount}</td>
+                            <td className="left">{scoretable.streakType}</td>
                             <td>{Number(( scoretable.avggoalsfor ).toFixed( 2 ) )}</td>
                             <td>{Number(( scoretable.avggoalsagainst ).toFixed( 2 ) )}</td>
                             <td>{Number(( scoretable.avgpoints ).toFixed( 2 ) )}</td>

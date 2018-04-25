@@ -78,6 +78,14 @@ ul.header .active {
 	padding-left:5px;
 }
 
+.tournamenttable tr td.center{
+	text-align:center;
+}
+
+.tournamenttable tr td.left{
+	text-align:left;
+}
+
 .tournamenttable tr:nth-child(even) {
 	background: #F0F0F0;
 }

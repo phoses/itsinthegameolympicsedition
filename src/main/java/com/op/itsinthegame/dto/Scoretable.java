@@ -1,5 +1,7 @@
 package com.op.itsinthegame.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -19,7 +21,11 @@ public class Scoretable {
 	private Double avggoalsagainst;
 	private Double avgpoints;
 	private Double winpros;
-	
+	private Integer streakCount;
+	private StreakType streakType;
+	@JsonIgnore
+	private boolean streakCalculated;
+
 	public Scoretable(Player player) {
 		super();
 		this.player = player;
@@ -36,67 +42,87 @@ public class Scoretable {
 		this.goalsagainst = new Integer(0);
 		this.avggoalsfor = new Double(0);
 		this.avggoalsagainst = new Double(0);
+		this.streakCount = new Integer(0);
 	}
-	
-	public void addGamesplayed(Integer count){
+
+	public void addGamesplayed(Integer count) {
 		gamesplayed += count;
 		calculate();
 	}
-	
-	public void addWins(Integer count){
+
+	public void addWins(Integer count) {
 		wins += count;
+
+		calculateStreak(StreakType.W);
 		calculate();
 	}
-	
-	public void addDraws(Integer count){
+
+	public void addDraws(Integer count) {
 		draws += count;
+		calculateStreak(StreakType.D);
 		calculate();
 	}
-	
-	public void addLoses(Integer count){
+
+	public void addLoses(Integer count) {
 		loses += count;
+		calculateStreak(StreakType.L);
 		calculate();
 	}
-	
-	public void addOtwins(Integer count){
+
+	public void addOtwins(Integer count) {
 		otwins += count;
-		calculate();
+		addWins(count);
 	}
-	
-	public void addOtloses(Integer count){
+
+	public void addOtloses(Integer count) {
 		otloses += count;
-		calculate();
+		addLoses(count);
 	}
-	
-	public void addPoints(Integer count){
+
+	public void addPoints(Integer count) {
 		points += count;
 		calculate();
 	}
-	
-	public void addGoalsfor(Integer count){
+
+	public void addGoalsfor(Integer count) {
 		goalsfor += count;
 		calculateGoals();
 	}
-	
-	public void addGoalsagainst(Integer count){
+
+	public void addGoalsagainst(Integer count) {
 		goalsagainst += count;
 		calculateGoals();
 	}
 	
+	private void calculateStreak(StreakType resultType){
+		
+		if(streakType == null){
+			streakType = resultType;
+		}
+		
+		if(!streakType.equals(resultType)){
+			streakCalculated = true;
+		}
+		
+		if(!streakCalculated){
+			streakCount += 1; 
+		}
+	}
+
 	private void calculateGoals() {
 		avggoalsfor = new Double(new Double(goalsfor) / new Double(gamesplayed));
 		avggoalsagainst = new Double(new Double(goalsagainst) / new Double(gamesplayed));
 	}
 
-	private void calculaWinpros(){
-		winpros = new Double((new Double(wins) + new Double(otwins)) / new Double(gamesplayed));
+	private void calculaWinpros() {
+		winpros = new Double((new Double(wins)) / new Double(gamesplayed));
 	}
-	
-	private void calculateAvgPoints(){
+
+	private void calculateAvgPoints() {
 		avgpoints = new Double(new Double(points) / new Double(gamesplayed));
 	}
-		
-	private void calculate(){		
+
+	private void calculate() {
 		calculaWinpros();
 		calculateAvgPoints();
 	}
