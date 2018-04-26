@@ -17,7 +17,8 @@ class TournamentTable extends Component {
                         <td>D</td>
                         <td>OTW</td>
                         <td>OTL</td>
-                        <td colspan="2" className="center">STR</td>
+                        <td className="right">STR</td>
+                        <td>&nbsp;</td>
                         <td>A.GF</td>
                         <td>A.GA</td>
                         <td>A.PTS</td>

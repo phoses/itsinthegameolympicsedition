@@ -78,6 +78,10 @@ ul.header .active {
 	padding-left:5px;
 }
 
+.tournamenttable tr td.right{
+	text-align:right;
+}
+
 .tournamenttable tr td.center{
 	text-align:center;
 }
