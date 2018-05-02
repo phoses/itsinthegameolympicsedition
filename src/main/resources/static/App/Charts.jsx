@@ -30,14 +30,16 @@ class Charts extends Component {
         this.updateState = this.updateState.bind( this );
 
     };
-    
-    clear(){
-        this.setState({showGraph: false,
-                data: {
-                    labels: [],
-                    datasets: []
-                }});
-        
+
+    clear() {
+        this.setState( {
+            showGraph: false,
+            data: {
+                labels: [],
+                datasets: []
+            }
+        } );
+
     }
 
     getRandomColor() {
@@ -50,8 +52,12 @@ class Charts extends Component {
     }
 
     playerClick( player, type, tournament ) {
+
+        // bug in chart.js(?) when array lenght 2 and deleting first object - temp row fixes problem
+        this.addPlayer('temp',[0]);
         
         if ( this.removePlayer( player.name ) ) {
+            this.removePlayer('temp');
             return;
         }
 
@@ -59,39 +65,32 @@ class Charts extends Component {
         if ( tournament != undefined ) {
             graphUrl += '?tournament=' + tournament.id;
         }
-        
-        axios.get( this.props.data.apilocation + graphUrl ).then(( response ) => {
-            console.log( "fetched graphs : " + JSON.stringify( response ) );
 
+        axios.get( this.props.data.apilocation + graphUrl ).then(( response ) => {
             this.setLabels( response.data.dates );
             this.addPlayer( player.name, response.data.values );
 
         } );
 
-
+        this.removePlayer('temp');
     }
 
 
     addPlayer( playername, data ) {
 
-        if ( !this.removePlayer( playername ) ) {
-
-            var newData = {
-                label: playername,
-                fill: false,
-                borderColor: this.getRandomColor(),
-                data: data
-            }
-
-            this.state.data.datasets.push( newData );
-
+        var newData = {
+            label: playername,
+            fill: false,
+            borderColor: this.getRandomColor(),
+            data: data
         }
 
+        this.state.data.datasets.push( newData );
         this.updateState();
-        console.log( this.state.data );
     }
 
     removePlayer( playername ) {
+
         for ( var i = 0; i < this.state.data.datasets.length; i++ ) {
             if ( this.state.data.datasets[i].label == playername ) {
                 this.state.data.datasets.splice( i, 1 );
@@ -100,10 +99,11 @@ class Charts extends Component {
             }
         }
 
+
         return false;
     }
-    
-    updateState(){
+
+    updateState() {
         this.state.showGraph = this.state.data.datasets.length > 0;
         this.setState( {} );
     }
@@ -116,7 +116,7 @@ class Charts extends Component {
     render() {
         return (
             <div>
-                {this.state.showGraph ? 
+                {this.state.showGraph ?
                     <Line
                         data={this.state.data}
                         options={{
@@ -130,14 +130,11 @@ class Charts extends Component {
                                 yAxes: [{
                                     gridLines: {
                                         display: false
-                                    },
-                                    ticks: {
-                                        beginAtZero: true
                                     }
                                 }]
                             }
                         }} />
-                : null }
+                    : null}
             </div>
         );
     }
