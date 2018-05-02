@@ -29,12 +29,12 @@ class TournamentSelect extends Component {
 
             <div className="tournamentSelect">
                 <span className="formselect topic">Tournament:</span>
-                <select className="select" onChange={this.changeTournament}>
+                <select className="select" value={this.props.tournamentindex} onChange={this.changeTournament}>
                     {this.props.emptySelect &&
                         <option value="">-- Select tournament --</option>
                     }
                     {this.props.data.tournaments.map(( tournament, i ) =>
-                        <option key={i} name="tournament" value={i} selected={this.state.defaultTournamentId == tournament.id}>{tournament.name}</option>
+                        <option key={i} name="tournament" value={i} >{tournament.name}</option>
                     )}
                 </select>
             </div>
