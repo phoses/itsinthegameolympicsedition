@@ -6,5 +6,4 @@ import com.op.itsinthegame.dto.Player;
 
 public interface PlayerRepository extends MongoRepository<Player, String>{
 
-	void deletePlayerById(String id); 
 }

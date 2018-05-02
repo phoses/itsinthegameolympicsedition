@@ -6,7 +6,4 @@ import com.op.itsinthegame.dto.Tournament;
 
 public interface TournamentRepository extends MongoRepository<Tournament, String>{
 
-	void deleteTournamentById(String id); 
-	
-	Tournament findById(String id);
 }

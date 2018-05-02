@@ -5,6 +5,7 @@ import axios from 'axios';
 import TournamentTable from './TournamentTable.jsx';
 import TournamentSelect from './TournamentSelect.jsx';
 import Playerstats from './Playerstats.jsx';
+import Charts from './Charts.jsx';
 
 class Stats extends Component {
     componentWillMount() {
@@ -31,27 +32,28 @@ class Stats extends Component {
         this.handleTournamentChange = this.handleTournamentChange.bind( this );
         this.playerclick = this.playerclick.bind( this );
         this.handleFormChange = this.handleFormChange.bind( this );
+
+        this.chartRef = React.createRef();
     };
 
     clear() {
         this.setState( {} );
     }
-                
-    playerclick(player){
-        console.log("fetch playerstats " + player.name);
-        
-        axios.get( this.props.data.apilocation + '/api/playerstats/' + player.id ).then(( response ) => {
-            console.log( "fetched playerstats : " + JSON.stringify( response ) );
 
-            console.log("this.props.playerstats " + JSON.stringify(response.data));
-//            console.log("this.props.playerstats.winswith !== null" + JSON.stringify(response.data).playerstats.winswith == undefined);
-            
-            this.setState( {
-                player: player,
-                playerstatsvisible: true,
-                playerstats: response.data
-            } );
-        } );
+    playerclick( player ) {
+
+        if ( this.state.formCount == 6 || this.state.formCount == 12 ) {
+            return;
+        }
+
+        var selectedTournament = undefined;
+        if ( this.state.tournamentindex > -1 ) {
+            selectedTournament = this.props.data.tournaments[this.state.tournamentindex];
+        }
+
+        var charttype = this.state.formCount == 777 ? 'week' : 'all';
+
+        this.chartRef.current.playerClick( player, charttype, selectedTournament );
     }
 
     handleTournamentChange( event ) {
@@ -65,31 +67,34 @@ class Stats extends Component {
                 var selectedTournament = this.props.data.tournaments[this.state.tournamentindex];
             }
         }
-        
+
         this.handleChange();
     }
-    
+
     handleFormChange( newForm ) {
         this.state.formCount = newForm;
-        
         this.handleChange();
     }
-    
+
     handleChange() {
+
+        if ( this.chartRef.current != undefined ) {
+            this.chartRef.current.clear();
+        }
 
         var selectedTournament = undefined;
         if ( this.state.tournamentindex > -1 ) {
             var selectedTournament = this.props.data.tournaments[this.state.tournamentindex];
         }
-        
-        var formurl="";
+
+        var formurl = "";
         var gamesFormurl = "";
-        if(this.state.formCount > 0){
-            if(this.state.formCount == 777){
-                formurl = "/currentweek";   
+        if ( this.state.formCount > 0 ) {
+            if ( this.state.formCount == 777 ) {
+                formurl = "/currentweek";
                 gamesFormurl = "/currentweek";
-            }else{
-                formurl = "/playergamecount/"+this.state.formCount;     
+            } else {
+                formurl = "/playergamecount/" + this.state.formCount;
             }
         }
 
@@ -118,9 +123,9 @@ class Stats extends Component {
                 this.setState( {} );
             } );
         }
-        
-        if(this.state.player != undefined && this.state.playerstatsvisible){
-            this.playerclick(this.state.player);
+
+        if ( this.state.player != undefined && this.state.playerstatsvisible ) {
+            this.playerclick( this.state.player );
         }
 
     }
@@ -128,29 +133,27 @@ class Stats extends Component {
     render() {
         return (
             <div className="renderContent">
-                
+
                 <TournamentSelect
                     changeTournament={this.handleTournamentChange}
                     tournamentindex={this.state.selectedtournament}
                     data={this.props.data}
                     emptySelect={true}
                 />
-                
-                <br/> <br/>
+
+                <br /> <br />
 
                 <div className="right">
-                    <span className={"tournamentformselect left " +  (this.state.formCount == 0 ? 'selected' : '')} onClick={() => { this.handleFormChange(0) }}>All</span>
-                    <span className={"tournamentformselect " +  (this.state.formCount == 6 ? 'selected' : '')} onClick={() => { this.handleFormChange(6) }}>6</span>
-                    <span className={"tournamentformselect " +  (this.state.formCount == 12 ? 'selected' : '')} onClick={() => { this.handleFormChange(12) }}>12</span>   
-                    <span className={"tournamentformselect right " +  (this.state.formCount == 777 ? 'selected' : '')} onClick={() => { this.handleFormChange(777) }}>Weekly</span>
+                    <span className={"tournamentformselect left " + ( this.state.formCount == 0 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 0 ) }}>All</span>
+                    <span className={"tournamentformselect " + ( this.state.formCount == 6 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 6 ) }}>6</span>
+                    <span className={"tournamentformselect " + ( this.state.formCount == 12 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 12 ) }}>12</span>
+                    <span className={"tournamentformselect right " + ( this.state.formCount == 777 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 777 ) }}>Weekly</span>
                 </div>
-                    
-                <TournamentTable data={this.props.data} scoretables={this.props.data.scoretables} onplayerclick={this.playerclick}/>
-                   
-                {this.state.playerstatsvisible && 
-                    <Playerstats playerstats={this.state.playerstats} hide={() => {this.setState({playerstatsvisible:false})} } player={this.state.player}/>
-                }
-                
+
+                <TournamentTable data={this.props.data} scoretables={this.props.data.scoretables} onplayerclick={this.playerclick} />
+
+                <Charts data={this.props.data} ref={this.chartRef} />
+
                 <span className="topic">Games played</span>
 
                 <table className="table gamerowtable">
@@ -160,6 +163,7 @@ class Stats extends Component {
                         )}
                     </tbody>
                 </table>
+
             </div>
         );
     }

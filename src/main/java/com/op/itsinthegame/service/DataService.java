@@ -28,6 +28,7 @@ import com.op.itsinthegame.dto.Tournament;
 import com.op.itsinthegame.repo.GameRepository;
 import com.op.itsinthegame.repo.PlayerRepository;
 import com.op.itsinthegame.repo.TournamentRepository;
+import com.op.itsinthegame.util.ScoretableCalculator;
 
 @RestController
 @CrossOrigin(methods={RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE})
@@ -57,13 +58,13 @@ public class DataService {
 	@RequestMapping(value="/api/games/tournament/{id}", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
 	public Iterable<Game> tournamentGames(@PathVariable("id") String id){
-		return gameRepository.findByTournamentOrderByTimeplayedDesc(tournamentRepository.findById(id));
+		return gameRepository.findByTournamentOrderByTimeplayedDesc(tournamentRepository.findOne(id));
 	}
 	
 	@RequestMapping(value="/api/games/tournament/{id}/currentweek", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
 	public Iterable<Game> tournamentGamesCurrentWeek(@PathVariable("id") String id){
-		return filterToCurrentWeekGames(gameRepository.findByTournamentOrderByTimeplayedDesc(tournamentRepository.findById(id)));
+		return filterToCurrentWeekGames(gameRepository.findByTournamentOrderByTimeplayedDesc(tournamentRepository.findOne(id)));
 	}
 	
 	@RequestMapping(value="/api/games", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
@@ -75,7 +76,7 @@ public class DataService {
 	@RequestMapping(value="/api/games/{id}", method = {RequestMethod.DELETE}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteGame(@PathVariable("id") String id){	
-		gameRepository.deleteGameById(id);
+		gameRepository.delete(id);
 	}
 	
 	@RequestMapping(value="/api/players", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
@@ -93,7 +94,7 @@ public class DataService {
 	@RequestMapping(value="/api/players/{id}", method = {RequestMethod.DELETE}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
 	public void deletePlayer(@PathVariable("id") String id){	
-		playerRepository.deletePlayerById(id);
+		playerRepository.delete(id);
 	}
 	
 	@RequestMapping(value="/api/tournaments", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
@@ -111,7 +112,7 @@ public class DataService {
 	@RequestMapping(value="/api/tournaments/{id}", method = {RequestMethod.DELETE}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteTournament(@PathVariable("id") String id){	
-		tournamentRepository.deleteTournamentById(id);
+		tournamentRepository.delete(id);
 	}
 	
 	@RequestMapping(value="/api/scoretables", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
@@ -247,7 +248,7 @@ public class DataService {
 		if(tournamentId == null){
 			games = gameRepository.findAllByOrderByTimeplayedDesc();
 		}else{
-			games = gameRepository.findByTournamentOrderByTimeplayedDesc(tournamentRepository.findById(tournamentId));
+			games = gameRepository.findByTournamentOrderByTimeplayedDesc(tournamentRepository.findOne(tournamentId));
 		}	
 				
 		return calculateScoretable(games, playerGameCount);
@@ -259,7 +260,7 @@ public class DataService {
 		if(tournamentId == null){
 			games = gameRepository.findAllByOrderByTimeplayedDesc();
 		}else{
-			games = gameRepository.findByTournamentOrderByTimeplayedDesc(tournamentRepository.findById(tournamentId));
+			games = gameRepository.findByTournamentOrderByTimeplayedDesc(tournamentRepository.findOne(tournamentId));
 		}	
 		
 		List<Game> currentWeekGames = filterToCurrentWeekGames(games);
@@ -296,7 +297,7 @@ public class DataService {
 				}
 				
 				if(scoretables.get(player).getGamesplayed() < playerGameCount){
-					setPlayerScore(game, scoretables.get(player), true);
+					ScoretableCalculator.calcScoretable(game, scoretables.get(player), true);
 				}
 			}	
 			
@@ -306,7 +307,7 @@ public class DataService {
 				}
 				
 				if(scoretables.get(player).getGamesplayed() < playerGameCount){
-					setPlayerScore(game, scoretables.get(player), false);
+					ScoretableCalculator.calcScoretable(game, scoretables.get(player), false);
 				}
 			}
 		}
@@ -317,44 +318,4 @@ public class DataService {
 		return sorted;
 	}
 
-	private void setPlayerScore(Game game, Scoretable scoretable, boolean homeplayer) {
-		
-		scoretable.addGamesplayed(1);
-		
-		if(homeplayer){
-			scoretable.addGoalsfor(game.getHomegoals());
-			scoretable.addGoalsagainst(game.getAwaygoals());
-		}else{
-			scoretable.addGoalsfor(game.getAwaygoals());
-			scoretable.addGoalsagainst(game.getHomegoals());
-		}
-		
-		if((homeplayer && game.getHomegoals() > game.getAwaygoals())
-				|| (!homeplayer && game.getHomegoals() < game.getAwaygoals())){
-			
-			if(game.isOvertime()){
-				scoretable.addOtwins(1);
-				scoretable.addPoints(game.getTournament().getOtwinpoints());
-			}else{
-				scoretable.addWins(1);
-				scoretable.addPoints(game.getTournament().getWinpoints());
-			}
-			
-		}else if(game.getHomegoals() == game.getAwaygoals()){
-			
-			scoretable.addDraws(1);
-			scoretable.addPoints(game.getTournament().getDrawpoints());
-			
-		}else{
-			
-			if(game.isOvertime()){
-				scoretable.addOtloses(1);
-				scoretable.addPoints(game.getTournament().getOtlosepoints());
-			}else{
-				scoretable.addLoses(1);
-			}
-			
-		}
-
-	}
 }
