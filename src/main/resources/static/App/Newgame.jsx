@@ -14,10 +14,10 @@ class Newgame extends Component {
                 awayplayers: [],
                 homegoals: 0,
                 awaygoals: 0,
-                tournament: '',
+                tournament: null,
                 overtime: false
             },
-            tournamentindex: 0,
+            tournamentindex: -1,
             random: true,
             evenfill: true
         }
@@ -50,8 +50,12 @@ class Newgame extends Component {
     changeTournament( event ) {
 
         this.state.tournamentindex = event.target.value;
-        this.state.game.tournament = this.props.data.tournaments[this.state.tournamentindex];
-
+        if(this.state.tournamentindex == -1){
+            this.state.game.tournament = null;
+        }else{
+            this.state.game.tournament = this.props.data.tournaments[this.state.tournamentindex];
+        }
+            
         console.log( JSON.stringify( event.target.value ) );
     }
 
@@ -63,7 +67,7 @@ class Newgame extends Component {
                 awayplayers: [],
                 homegoals: 0,
                 awaygoals: 0,
-                tournament: '',
+                tournament: null,
                 overtime: false
             }
         }
@@ -74,7 +78,7 @@ class Newgame extends Component {
 
         if ( this.state.game.homeplayers.length == 0 && this.state.game.awayplayers.length == 0 ) {
             this.state.game.timeplayed = new Date().getTime();
-            this.state.game.tournament = this.props.data.tournaments[0];
+//            this.state.game.tournament = this.props.data.tournaments[0];
         }
 
         if ( this.state.game.homeplayers.includes( player )

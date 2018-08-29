@@ -16,7 +16,14 @@ class GameRow extends React.Component {
         console.log( "game :" + this.props.game.timeplayed );
 
         if ( this.props.newgame ) {
-            this.savegame();
+                        
+            if(this.props.game.tournament == null){
+                alert("Choose tournament");
+                return;
+            }else{
+                this.savegame(); 
+            }   
+            
         } else {
             this.deletegame();
         }
@@ -32,7 +39,7 @@ class GameRow extends React.Component {
     }
 
     savegame() {
-        console.log( "this.props.data :" + JSON.stringify( this.props.data ) )
+        console.log( "this.props.data :" + JSON.stringify( this.props.data ) )        
         functions.saveGame( this.props, this.props.game, this.props.postaction );
     }
 
