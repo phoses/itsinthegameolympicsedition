@@ -28,8 +28,12 @@ class TournamentTable extends Component {
                     {this.props.scoretables.map(( scoretable, i ) =>
                         <tr key={i}>
                             <td>
-                                <span onClick={() => { this.props.onplayerclick( scoretable.player ) }}>
-                                    {scoretable.player.name}
+
+                                { /*<span onClick={() => { this.props.onplayerclick( scoretable.player ) }}> */ }
+                                <span>
+                                    {scoretable.players.map(( player, playerindex ) =>
+                                        (playerindex > 0 ? " & " : "") + player.name
+                                    )}
                                 </span>
                             </td>
                             <td>{scoretable.gamesplayed}</td>

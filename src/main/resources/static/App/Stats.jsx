@@ -24,7 +24,8 @@ class Stats extends Component {
                 "winsagainst": null,
                 "losesagainst": null
             },
-            formCount: 0
+            formCount: 0,
+            scoreasteam: true
         }
 
         this.clear = this.clear.bind( this );
@@ -32,14 +33,20 @@ class Stats extends Component {
         this.handleTournamentChange = this.handleTournamentChange.bind( this );
         this.playerclick = this.playerclick.bind( this );
         this.handleFormChange = this.handleFormChange.bind( this );
-
+        this.scoreasteamChange = this.scoreasteamChange.bind( this );
         this.chartRef = React.createRef();
+        
     };
 
     clear() {
         this.setState( {} );
     }
 
+    scoreasteamChange(){
+        this.state.scoreasteam = !this.state.scoreasteam;
+        this.handleChange();
+    }
+    
     playerclick( player ) {
 
         if ( this.state.formCount == 6 || this.state.formCount == 12 ) {
@@ -77,7 +84,7 @@ class Stats extends Component {
     }
 
     handleChange() {
-
+        
         if ( this.chartRef.current != undefined ) {
             this.chartRef.current.clear();
         }
@@ -89,6 +96,8 @@ class Stats extends Component {
 
         var formurl = "";
         var gamesFormurl = "";
+        var scoreasteamurl = this.state.scoreasteam ? "/true" : "";
+        
         if ( this.state.formCount > 0 ) {
             if ( this.state.formCount == 777 ) {
                 formurl = "/currentweek";
@@ -105,7 +114,7 @@ class Stats extends Component {
                 this.setState( {} );
             } );
 
-            axios.get( this.props.data.apilocation + '/api/scoretables/tournament/' + selectedTournament.id + formurl ).then(( response ) => {
+            axios.get( this.props.data.apilocation + '/api/scoretables/tournament/' + selectedTournament.id + formurl + scoreasteamurl).then(( response ) => {
                 console.log( "fetched scoretables : " + JSON.stringify( response ) );
                 this.props.data.scoretables = response.data;
                 this.setState( {} );
@@ -117,7 +126,7 @@ class Stats extends Component {
                 this.setState( {} );
             } );
 
-            axios.get( this.props.data.apilocation + '/api/scoretables' + formurl ).then(( response ) => {
+            axios.get( this.props.data.apilocation + '/api/scoretables' + formurl + scoreasteamurl).then(( response ) => {
                 console.log( "fetched scoretables : " + JSON.stringify( response ) );
                 this.props.data.scoretables = response.data;
                 this.setState( {} );
@@ -143,6 +152,8 @@ class Stats extends Component {
 
                 <br /> <br />
 
+                <div onClick={() => { this.scoreasteamChange() }} className={"selecttoken " + ( this.state.scoreasteam ? 'selected' : '' )}><i className="fas fa-handshake"></i></div>
+                
                 <div className="right">
                     <span className={"tournamentformselect left " + ( this.state.formCount == 0 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 0 ) }}>All</span>
                     <span className={"tournamentformselect " + ( this.state.formCount == 6 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 6 ) }}>6</span>

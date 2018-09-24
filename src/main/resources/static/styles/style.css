@@ -218,6 +218,10 @@ div.newgame{
 	font-size:1.5em;
 }
 
+.newgame .topic{
+	text-align: center;
+}
+
 input[type=checkbox]
 {
   /* Double-sized Checkboxes */
@@ -238,15 +242,19 @@ input[type=checkbox]
 	
 }	
 
-.playerselecttoken{
+.selecttoken{
 	float:left;
 	font-size:2em;
-	width:50%;
 	text-align:center;
 	color: #c5c5c5;
 }
 
-.playerselecttoken.selected{
+.selecttoken.playerselecttoken{
+	width:50%;
+	padding-bottom: 50px;
+}
+
+.selecttoken.selected{
 	color: #60a5fd;
 }
 

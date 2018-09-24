@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.Sets;
 import com.op.itsinthegame.dto.Game;
 import com.op.itsinthegame.dto.GraphData;
 import com.op.itsinthegame.dto.GraphDataType;
@@ -80,7 +81,7 @@ public class GraphService {
 				
 		Map<DateTime, Double> datePointsMap = createMap(firstDate, lastday);
 		
-		Scoretable playerScoreTable = new Scoretable(player);
+		Scoretable playerScoreTable = new Scoretable(Sets.newHashSet(player));
 		for(DateTime date : datePointsMap.keySet()){
 			
 			List<Game> dateGames = findDateGames(games, date);

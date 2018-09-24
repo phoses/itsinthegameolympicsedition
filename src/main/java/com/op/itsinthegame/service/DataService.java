@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.Sets;
 import com.op.itsinthegame.comparator.ScoretableComparator;
 import com.op.itsinthegame.dto.Game;
 import com.op.itsinthegame.dto.Player;
@@ -115,22 +117,22 @@ public class DataService {
 		tournamentRepository.delete(id);
 	}
 	
-	@RequestMapping(value="/api/scoretables", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value={"/api/scoretables", "/api/scoretables/{scoreasteam}"}, method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public Iterable<Scoretable> scoretable(){
-		return createScoretable();
+	public Iterable<Scoretable> scoretable(@PathVariable(name="scoreasteam", required=false) Boolean scoreAsTeam){
+		return createScoretable(scoreAsTeam == null ? false : scoreAsTeam);
 	}
 	
-	@RequestMapping(value="/api/scoretables/currentweek", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value={"/api/scoretables/currentweek", "/api/scoretables/currentweek/{scoreasteam}"}, method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public Iterable<Scoretable> scoretableCurrentweek(){
-		return createScoretableCurrentweek();
+	public Iterable<Scoretable> scoretableCurrentweek(@PathVariable(name="scoreasteam", required=false) Boolean scoreAsTeam){
+		return createScoretableCurrentweek(scoreAsTeam == null ? false : scoreAsTeam);
 	}
 	
-	@RequestMapping(value="/api/scoretables/playergamecount/{gamecount}", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value={"/api/scoretables/playergamecount/{gamecount}/", "/api/scoretables/playergamecount/{gamecount}/{scoreasteam}"}, method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public Iterable<Scoretable> scoretablePlayerGameCount(@PathVariable("gamecount") Integer gamecount){
-		return createScoretable(gamecount);
+	public Iterable<Scoretable> scoretablePlayerGameCount(@PathVariable("gamecount") Integer gamecount, @PathVariable(name="scoreasteam", required=false) Boolean scoreAsTeam){
+		return createScoretable(gamecount, scoreAsTeam == null ? false : scoreAsTeam);
 	}
 	
 	@RequestMapping(value="/api/playerstats/{id}", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
@@ -208,41 +210,43 @@ public class DataService {
 	
 	
 	
-	@RequestMapping(value="/api/scoretables/tournament/{id}", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value={"/api/scoretables/tournament/{id}", "/api/scoretables/tournament/{id}/{scoreasteam}"}, method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public Iterable<Scoretable> tournamentScoretable(@PathVariable("id") String id){
-		return createScoretable(id);
+	public Iterable<Scoretable> tournamentScoretable(@PathVariable("id") String id, @PathVariable(name="scoreasteam", required=false) Boolean scoreAsTeam){
+		return createScoretable(id, scoreAsTeam == null ? false : scoreAsTeam);
 	}
 	
-	@RequestMapping(value="/api/scoretables/tournament/{id}/playergamecount/{gamecount}", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value={"/api/scoretables/tournament/{id}/playergamecount/{gamecount}", "/api/scoretables/tournament/{id}/playergamecount/{gamecount}/{scoreasteam}"}, method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public Iterable<Scoretable> tournamentScoretablePlayerGameCount(@PathVariable("id") String id, @PathVariable("gamecount") Integer gamecount){
-		return createScoretable(id, gamecount);
+	public Iterable<Scoretable> tournamentScoretablePlayerGameCount(@PathVariable("id") String id, @PathVariable("gamecount") Integer gamecount,
+			@PathVariable(name="scoreasteam", required=false) Boolean scoreAsTeam){
+		return createScoretable(id, gamecount, scoreAsTeam == null ? false : scoreAsTeam);
 	}
 	
-	@RequestMapping(value="/api/scoretables/tournament/{id}/currentweek", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value={"/api/scoretables/tournament/{id}/currentweek", "/api/scoretables/tournament/{id}/currentweek/{scoreasteam}"}, method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public Iterable<Scoretable> tournamentScoretableCurrentWeek(@PathVariable("id") String id){
-		return createScoretableCurrentWeek(id);
+	public Iterable<Scoretable> tournamentScoretableCurrentWeek(@PathVariable("id") String id, 
+			@PathVariable(name="scoreasteam", required=false) Boolean resultasteam){
+		return createScoretableCurrentWeek(id, resultasteam == null ? false : resultasteam);
 	}
 	
-	private Iterable<Scoretable> createScoretable(String tournamentId){
-		return createScoretable(tournamentId, Integer.MAX_VALUE);
+	private Iterable<Scoretable> createScoretable(String tournamentId, boolean scoreAsTeam){
+		return createScoretable(tournamentId, Integer.MAX_VALUE, scoreAsTeam);
 	}
 	
-	private Iterable<Scoretable> createScoretable(){
-		return createScoretable(null, Integer.MAX_VALUE);
+	private Iterable<Scoretable> createScoretable(boolean scoreAsTeam){
+		return createScoretable(null, Integer.MAX_VALUE, scoreAsTeam);
 	}
 	
-	private Iterable<Scoretable> createScoretableCurrentweek(){
-		return createScoretableCurrentWeek(null);
+	private Iterable<Scoretable> createScoretableCurrentweek(boolean scoreAsTeam){
+		return createScoretableCurrentWeek(null, scoreAsTeam);
 	}
 	
-	private Iterable<Scoretable> createScoretable(Integer playerGameCount){
-		return createScoretable(null, playerGameCount);
+	private Iterable<Scoretable> createScoretable(Integer playerGameCount, boolean scoreAsTeam){
+		return createScoretable(null, playerGameCount, scoreAsTeam);
 	}
 	
-	private Iterable<Scoretable> createScoretable(String tournamentId, Integer playerGameCount){
+	private Iterable<Scoretable> createScoretable(String tournamentId, Integer playerGameCount, boolean scoreAsTeam){
 		Iterable<Game> games;
 				
 		if(tournamentId == null){
@@ -251,10 +255,10 @@ public class DataService {
 			games = gameRepository.findByTournamentOrderByTimeplayedDesc(tournamentRepository.findOne(tournamentId));
 		}	
 				
-		return calculateScoretable(games, playerGameCount);
+		return calculateScoretable(games, playerGameCount, scoreAsTeam);
 	}
 	
-	private Iterable<Scoretable> createScoretableCurrentWeek(String tournamentId){
+	private Iterable<Scoretable> createScoretableCurrentWeek(String tournamentId, boolean scoreAsTeam){
 		Iterable<Game> games;
 				
 		if(tournamentId == null){
@@ -265,7 +269,7 @@ public class DataService {
 		
 		List<Game> currentWeekGames = filterToCurrentWeekGames(games);
 				
-		return calculateScoretable(currentWeekGames, Integer.MAX_VALUE);
+		return calculateScoretable(currentWeekGames, Integer.MAX_VALUE, scoreAsTeam);
 	}
 
 	private List<Game> filterToCurrentWeekGames(Iterable<Game> games) {
@@ -285,37 +289,41 @@ public class DataService {
 		return currentWeekGames;
 	}
 
-	private Iterable<Scoretable> calculateScoretable(Iterable<Game> games, Integer playerGameCount){
+	private Iterable<Scoretable> calculateScoretable(Iterable<Game> games, Integer playerGameCount, boolean scoreAsTeam){
 			
-		Map<Player, Scoretable> scoretables = new HashMap<>();
+		Map<Set<Player>, Scoretable> scoretables = new HashMap<>();
 		
 		for(Game game : games){
-			
-			for(Player player : game.getHomeplayers()){
-				if(!scoretables.containsKey(player)){
-					scoretables.put(player, new Scoretable(player));
-				}
 				
-				if(scoretables.get(player).getGamesplayed() < playerGameCount){
-					ScoretableCalculator.calcScoretable(game, scoretables.get(player), true);
-				}
-			}	
-			
-			for(Player player : game.getAwayplayers()){
-				if(!scoretables.containsKey(player)){
-					scoretables.put(player, new Scoretable(player));
-				}
+			if(scoreAsTeam && game.getHomeplayers().size() > 1 && game.getAwayplayers().size() > 1){
+				calculate(playerGameCount, scoretables, game, game.getHomeplayers(), true);
+				calculate(playerGameCount, scoretables, game, game.getAwayplayers(), false);
+			}else if(!scoreAsTeam){
+				for(Player player : game.getHomeplayers()){
+					calculate(playerGameCount, scoretables, game, Sets.newHashSet(player), true);
+				}	
 				
-				if(scoretables.get(player).getGamesplayed() < playerGameCount){
-					ScoretableCalculator.calcScoretable(game, scoretables.get(player), false);
+				for(Player player : game.getAwayplayers()){
+					calculate(playerGameCount, scoretables, game, Sets.newHashSet(player), false);
 				}
 			}
+			
 		}
 
 		List<Scoretable> sorted = new ArrayList<>(scoretables.values());
 		Collections.sort(sorted, new ScoretableComparator());
 		
 		return sorted;
+	}
+
+	private void calculate(Integer playerGameCount, Map<Set<Player>, Scoretable> scoretables, Game game, Set<Player> player, boolean homeplayer) {
+		if(!scoretables.containsKey(player)){
+			scoretables.put(player, new Scoretable(player));
+		}
+		
+		if(scoretables.get(Sets.newHashSet(player)).getGamesplayed() < playerGameCount){
+			ScoretableCalculator.calcScoretable(game, scoretables.get(player), homeplayer);
+		}
 	}
 
 }

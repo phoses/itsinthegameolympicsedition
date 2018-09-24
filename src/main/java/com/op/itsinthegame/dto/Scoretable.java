@@ -1,5 +1,8 @@
 package com.op.itsinthegame.dto;
 
+import java.util.List;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -7,7 +10,7 @@ import lombok.Data;
 @Data
 public class Scoretable {
 
-	private Player player;
+	private Set<Player> players;
 	private Integer gamesplayed;
 	private Integer wins;
 	private Integer draws;
@@ -26,9 +29,9 @@ public class Scoretable {
 	@JsonIgnore
 	private boolean streakCalculated;
 
-	public Scoretable(Player player) {
+	public Scoretable(Set<Player> players) {
 		super();
-		this.player = player;
+		this.players = players;
 		this.gamesplayed = new Integer(0);
 		this.wins = new Integer(0);
 		this.draws = new Integer(0);

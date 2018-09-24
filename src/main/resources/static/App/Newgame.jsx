@@ -117,9 +117,9 @@ class Newgame extends Component {
 
     render() {
         return (
-            <div className="renderContent">
-                <div onClick={() => { this.setState( { random: !this.state.random } ) }} className={"playerselecttoken " + ( this.state.random ? 'selected' : '' )}><i className="fas fa-random"></i></div>
-                <div onClick={() => { this.setState( { evenfill: !this.state.evenfill } ) }} className={"playerselecttoken " + ( this.state.evenfill ? 'selected' : '' )}><i className="fas fa-th-list"></i></div>
+            <div className="renderContent newgame">
+                <div onClick={() => { this.setState( { random: !this.state.random } ) }} className={"selecttoken playerselecttoken " + ( this.state.random ? 'selected' : '' )}><i className="fas fa-random"></i></div>
+                <div onClick={() => { this.setState( { evenfill: !this.state.evenfill } ) }} className={"selecttoken playerselecttoken " + ( this.state.evenfill ? 'selected' : '' )}><i className="fas fa-th-list"></i></div>
                 <div className="topic">Select players</div>
 
                 <PlayerList players={this.props.data.players} selectPlayer={this.selectPlayer} />
