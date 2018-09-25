@@ -24,32 +24,37 @@ class TournamentTable extends Component {
                         <td>A.PTS</td>
                         <td>WIN%</td>
                     </tr>
-
-                    {this.props.scoretables.map(( scoretable, i ) =>
-                        <tr key={i}>
-                            <td>
-
-                                { /*<span onClick={() => { this.props.onplayerclick( scoretable.player ) }}> */ }
-                                <span>
-                                    {scoretable.players.map(( player, playerindex ) =>
-                                        (playerindex > 0 ? " & " : "") + player.name
-                                    )}
-                                </span>
-                            </td>
-                            <td>{scoretable.gamesplayed}</td>
-                            <td>{scoretable.wins}</td>
-                            <td>{scoretable.loses}</td>
-                            <td>{scoretable.draws}</td>
-                            <td>{scoretable.otwins}</td>
-                            <td>{scoretable.otloses}</td>
-                            <td>{scoretable.streakCount}</td>
-                            <td className="left">{scoretable.streakType}</td>
-                            <td>{Number(( scoretable.avggoalsfor ).toFixed( 2 ) )}</td>
-                            <td>{Number(( scoretable.avggoalsagainst ).toFixed( 2 ) )}</td>
-                            <td>{Number(( scoretable.avgpoints ).toFixed( 2 ) )}</td>
-                            <td>{Number(( scoretable.winpros * 100 ).toFixed( 2 ) )}</td>
-                        </tr>
-                    )}
+                        
+                    {this.props.scoretables.map(( scoretable, i ) => {
+                        return this.props.playedmatchcount <= scoretable.gamesplayed ? 
+                                
+                                <tr key={i}>
+                                    <td>
+        
+                                        { /*<span onClick={() => { this.props.onplayerclick( scoretable.player ) }}> */ }
+                                        <span>
+                                            {scoretable.players.map(( player, playerindex ) =>
+                                                (playerindex > 0 ? " & " : "") + player.name
+                                            )}
+                                        </span>
+                                    </td>
+                                    <td>{scoretable.gamesplayed}</td>
+                                    <td>{scoretable.wins}</td>
+                                    <td>{scoretable.loses}</td>
+                                    <td>{scoretable.draws}</td>
+                                    <td>{scoretable.otwins}</td>
+                                    <td>{scoretable.otloses}</td>
+                                    <td>{scoretable.streakCount}</td>
+                                    <td className="left">{scoretable.streakType}</td>
+                                    <td>{Number(( scoretable.avggoalsfor ).toFixed( 2 ) )}</td>
+                                    <td>{Number(( scoretable.avggoalsagainst ).toFixed( 2 ) )}</td>
+                                    <td>{Number(( scoretable.avgpoints ).toFixed( 2 ) )}</td>
+                                    <td>{Number(( scoretable.winpros * 100 ).toFixed( 2 ) )}</td>
+                                </tr>
+                        
+                        
+                        : ""
+                    })}
 
                 </tbody>
             </table>

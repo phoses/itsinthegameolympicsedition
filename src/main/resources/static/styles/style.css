@@ -244,14 +244,17 @@ input[type=checkbox]
 
 .selecttoken{
 	float:left;
-	font-size:2em;
+	font-size:1.5em;
 	text-align:center;
 	color: #c5c5c5;
+	padding-right:10px;
 }
 
 .selecttoken.playerselecttoken{
 	width:50%;
 	padding-bottom: 50px;
+	padding-right:0px;
+	font-size:2em;
 }
 
 .selecttoken.selected{
@@ -261,7 +264,7 @@ input[type=checkbox]
 .tournamentformselect{
 	text-align:center;
 	display:inline-block;
-	width:20%;
+	width:15%;
 	border-style: solid;
 	border-width:1px;
 	border-color: black;
@@ -281,4 +284,8 @@ input[type=checkbox]
 .tournamentformselect.left{
 	border-radius: 5px 0px 0px 5px;
 	border-width: 1px 0px 1px 1px;
+}
+
+.hidden{
+	display: none;
 }

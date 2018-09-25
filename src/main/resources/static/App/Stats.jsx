@@ -25,7 +25,8 @@ class Stats extends Component {
                 "losesagainst": null
             },
             formCount: 0,
-            scoreasteam: true
+            scoreasteam: true,
+            competitive: false
         }
 
         this.clear = this.clear.bind( this );
@@ -153,6 +154,8 @@ class Stats extends Component {
                 <br /> <br />
 
                 <div onClick={() => { this.scoreasteamChange() }} className={"selecttoken " + ( this.state.scoreasteam ? 'selected' : '' )}><i className="fas fa-handshake"></i></div>
+                <div onClick={() => { this.setState( { competitive: !this.state.competitive } ) } } className={"selecttoken " + ( this.state.competitive ? 'selected' : '' )}><i className="fas fa-trophy"></i></div>
+                
                 
                 <div className="right">
                     <span className={"tournamentformselect left " + ( this.state.formCount == 0 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 0 ) }}>All</span>
@@ -161,7 +164,11 @@ class Stats extends Component {
                     <span className={"tournamentformselect right " + ( this.state.formCount == 777 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 777 ) }}>Weekly</span>
                 </div>
 
-                <TournamentTable data={this.props.data} scoretables={this.props.data.scoretables} onplayerclick={this.playerclick} />
+                <TournamentTable 
+                    data={this.props.data} 
+                    scoretables={this.props.data.scoretables} 
+                    onplayerclick={this.playerclick} 
+                    playedmatchcount={!this.state.competitive ? 0 : this.state.scoreasteam ? 5 : 10}/>
 
                 <Charts data={this.props.data} ref={this.chartRef} />
 
