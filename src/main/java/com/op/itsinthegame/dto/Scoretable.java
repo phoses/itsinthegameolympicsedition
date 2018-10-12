@@ -1,9 +1,9 @@
 package com.op.itsinthegame.dto;
 
-import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.op.itsinthegame.service.Utils;
 
 import lombok.Data;
 
@@ -113,16 +113,16 @@ public class Scoretable {
 	}
 
 	private void calculateGoals() {
-		avggoalsfor = new Double(new Double(goalsfor) / new Double(gamesplayed));
-		avggoalsagainst = new Double(new Double(goalsagainst) / new Double(gamesplayed));
+		avggoalsfor = Utils.round2(new Double(new Double(goalsfor) / new Double(gamesplayed)));
+		avggoalsagainst = Utils.round2(new Double(new Double(goalsagainst) / new Double(gamesplayed)));
 	}
 
 	private void calculaWinpros() {
-		winpros = new Double((new Double(wins)) / new Double(gamesplayed));
+		winpros = Utils.round2(new Double((new Double(wins)) / new Double(gamesplayed)));
 	}
 
 	private void calculateAvgPoints() {
-		avgpoints = new Double(new Double(points) / new Double(gamesplayed));
+		avgpoints = Utils.round2(new Double(new Double(points) / new Double(gamesplayed)));
 	}
 
 	private void calculate() {
