@@ -158,6 +158,11 @@ ul.header .active {
 	display:inline-block;
 }
 
+.player.selected{
+	background-color: #0099FF;
+	color:#ffffff;
+}
+
 div.center{
 	text-align:center;
 }

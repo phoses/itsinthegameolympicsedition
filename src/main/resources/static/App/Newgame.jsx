@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom';
 import PlayerList from './PlayerList.jsx';
 import GameRow from './GameRow.jsx';
 import TournamentSelect from './TournamentSelect.jsx';
+import { Redirect } from 'react-router';
 
 class Newgame extends Component {
+        
     constructor( props ) {
         super( props );
 
@@ -63,16 +65,17 @@ class Newgame extends Component {
     clear() {
         console.log("clear new game");
         this.setState( {
-            game: {
-                homeplayers: [],
-                awayplayers: [],
-                homegoals: 0,
-                awaygoals: 0,
-                tournament: null,
-                overtime: false
+                game: {
+                    homeplayers: [],
+                    awayplayers: [],
+                    homegoals: 0,
+                    awaygoals: 0,
+                    tournament: null,
+                    overtime: false
+                }
             }
-        }
         );
+ 
     }
 
     setPlayerToRandomTeam( player ) {
@@ -109,13 +112,26 @@ class Newgame extends Component {
                 this.state.game.awayplayers.push( player );
             }
         }
-        this.setState( {} );
 
         console.log( "this.state.game.homeplayers " + this.state.game.homeplayers );
         console.log( "this.state.game.awayplayers " + this.state.game.awayplayers );
     }
     
     selectPlayer( player ) {
+        
+        if(this.state.game.homeplayers.includes(player)){
+            var index = this.state.game.homeplayers.indexOf( player )         
+            this.state.game.homeplayers.splice(index, 1);
+            
+            this.setState( {} );
+            return;
+        }else if(this.state.game.awayplayers.includes(player)){
+            var index = this.state.game.awayplayers.indexOf( player )         
+            this.state.game.awayplayers.splice(index, 1);
+            
+            this.setState( {} );
+            return;
+        }
         
         var tempPlayerList = this.state.game.homeplayers.concat(this.state.game.awayplayers);
         this.state.game.homeplayers = [];
@@ -124,13 +140,14 @@ class Newgame extends Component {
         tempPlayerList.push(player);
         
         for(var i = 0 ; i < tempPlayerList.length ; i++){
-            this.setPlayerToRandomTeam(tempPlayerList[i]);
+        	this.setPlayerToRandomTeam(tempPlayerList[i]);
         }
         
-       
+        this.setState( {} );
     }    
 
     render() {
+
         return (
             <div className="renderContent newgame">
                 <div onClick={() => { this.setState( { random: !this.state.random } ) }} className={"selecttoken playerselecttoken " + ( this.state.random ? 'selected' : '' )}><i className="fas fa-random"></i></div>
@@ -139,7 +156,7 @@ class Newgame extends Component {
 
                 <PlayerList players={this.props.data.players} selectPlayer={this.selectPlayer} />
 
-                {this.state.game.timeplayed != undefined &&
+                {(this.state.game.timeplayed != undefined && this.state.game.homeplayers.length == 2 && this.state.game.awayplayers.length == 2) && 
                     <Result game={this.state.game}
                         clear={this.clear}
                         changeHomeGoal={this.changeHomeGoal}

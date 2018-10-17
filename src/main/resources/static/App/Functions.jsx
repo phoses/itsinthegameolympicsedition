@@ -71,8 +71,7 @@ export function saveGame( state, game, afterfunction ) {
     .then( function( response ) {
         console.log( "saved game : " + JSON.stringify( response.data ) );
         
-        state.data.games.push( response.data );
-        afterfunction();
+        window.location.href = "/";
     })
     .catch(function (error) {
         console.log(error);

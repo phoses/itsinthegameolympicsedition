@@ -8,9 +8,9 @@ import Playerstats from './Playerstats.jsx';
 import Charts from './Charts.jsx';
 
 class Stats extends Component {
-    componentWillMount() {
-        this.handleChange();
-    }
+//    componentDidMount () {
+//        this.handleChange();
+//    }
 
     constructor( props ) {
         super( props );
