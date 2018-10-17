@@ -23,6 +23,7 @@ class Newgame extends Component {
         }
 
         this.selectPlayer = this.selectPlayer.bind( this );
+        this.setPlayerToRandomTeam = this.setPlayerToRandomTeam.bind( this );
         this.clear = this.clear.bind( this );
         this.changeHomeGoal = this.changeHomeGoal.bind( this );
         this.changeAwayGoal = this.changeAwayGoal.bind( this );
@@ -74,11 +75,10 @@ class Newgame extends Component {
         );
     }
 
-    selectPlayer( player ) {
+    setPlayerToRandomTeam( player ) {
 
         if ( this.state.game.homeplayers.length == 0 && this.state.game.awayplayers.length == 0 ) {
             this.state.game.timeplayed = new Date().getTime();
-//            this.state.game.tournament = this.props.data.tournaments[0];
         }
 
         if ( this.state.game.homeplayers.includes( player )
@@ -114,6 +114,21 @@ class Newgame extends Component {
         console.log( "this.state.game.homeplayers " + this.state.game.homeplayers );
         console.log( "this.state.game.awayplayers " + this.state.game.awayplayers );
     }
+    
+    selectPlayer( player ) {
+        
+        var tempPlayerList = this.state.game.homeplayers.concat(this.state.game.awayplayers);
+        this.state.game.homeplayers = [];
+        this.state.game.awayplayers = [];
+        
+        tempPlayerList.push(player);
+        
+        for(var i = 0 ; i < tempPlayerList.length ; i++){
+            this.setPlayerToRandomTeam(tempPlayerList[i]);
+        }
+        
+       
+    }    
 
     render() {
         return (
