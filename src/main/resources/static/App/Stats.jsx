@@ -15,7 +15,7 @@ class Stats extends Component {
     constructor( props ) {
         super( props );
         this.state = {
-            tournamentindex: -1,
+            tournament: null,
             playerstatsvisible: false,
             player: null,
             playerstats: {
@@ -64,18 +64,8 @@ class Stats extends Component {
         this.chartRef.current.playerClick( player, charttype, selectedTournament );
     }
 
-    handleTournamentChange( event ) {
-
-        var selectedTournament = undefined;
-        if ( event != undefined ) {
-            this.state.tournamentindex = event.target.value;
-            var selectedTournament = this.props.data.tournaments[this.state.tournamentindex];
-        } else {
-            if ( this.state.tournamentindex > -1 ) {
-                var selectedTournament = this.props.data.tournaments[this.state.tournamentindex];
-            }
-        }
-
+    handleTournamentChange( tournament ) {
+        this.state.tournament = tournament;
         this.handleChange();
     }
 
@@ -88,11 +78,6 @@ class Stats extends Component {
         
         if ( this.chartRef.current != undefined ) {
             this.chartRef.current.clear();
-        }
-
-        var selectedTournament = undefined;
-        if ( this.state.tournamentindex > -1 ) {
-            var selectedTournament = this.props.data.tournaments[this.state.tournamentindex];
         }
 
         var formurl = "";
@@ -108,27 +93,28 @@ class Stats extends Component {
             }
         }
 
-        if ( selectedTournament != undefined ) {
-            axios.get( this.props.data.apilocation + '/api/games/tournament/' + selectedTournament.id + gamesFormurl ).then(( response ) => {
-                console.log( "fetched games : " + JSON.stringify( response ) );
+        if ( this.state.tournament != null) {           
+            
+            axios.get( this.props.data.apilocation + '/api/games/tournament/' + this.state.tournament.id + gamesFormurl ).then(( response ) => {
+//                console.log( "fetched games : " + JSON.stringify( response ) );
                 this.props.data.games = response.data;
                 this.setState( {} );
             } );
 
-            axios.get( this.props.data.apilocation + '/api/scoretables/tournament/' + selectedTournament.id + formurl + scoreasteamurl).then(( response ) => {
-                console.log( "fetched scoretables : " + JSON.stringify( response ) );
+            axios.get( this.props.data.apilocation + '/api/scoretables/tournament/' + this.state.tournament.id + formurl + scoreasteamurl).then(( response ) => {
+//                console.log( "fetched scoretables : " + JSON.stringify( response ) );
                 this.props.data.scoretables = response.data;
                 this.setState( {} );
             } );
         } else {
             axios.get( this.props.data.apilocation + '/api/games' + gamesFormurl ).then(( response ) => {
-                console.log( "fetched games : " + JSON.stringify( response ) );
+//                console.log( "fetched games : " + JSON.stringify( response ) );
                 this.props.data.games = response.data;
                 this.setState( {} );
             } );
 
             axios.get( this.props.data.apilocation + '/api/scoretables' + formurl + scoreasteamurl).then(( response ) => {
-                console.log( "fetched scoretables : " + JSON.stringify( response ) );
+//                console.log( "fetched scoretables : " + JSON.stringify( response ) );
                 this.props.data.scoretables = response.data;
                 this.setState( {} );
             } );
@@ -146,22 +132,21 @@ class Stats extends Component {
 
                 <TournamentSelect
                     changeTournament={this.handleTournamentChange}
-                    tournamentindex={this.state.selectedtournament}
                     data={this.props.data}
                     emptySelect={true}
                 />
 
                 <br /> <br />
 
-                <div onClick={() => { this.scoreasteamChange() }} className={"selecttoken " + ( this.state.scoreasteam ? 'selected' : '' )}><i className="fas fa-handshake"></i></div>
-                <div onClick={() => { this.setState( { competitive: !this.state.competitive } ) } } className={"selecttoken " + ( this.state.competitive ? 'selected' : '' )}><i className="fas fa-trophy"></i></div>
+                <div onClick={() => { this.scoreasteamChange() }} className={"selecttoken selectable " + ( this.state.scoreasteam ? 'selected' : '' )}><i className="fas fa-handshake"></i></div>
+                <div onClick={() => { this.setState( { competitive: !this.state.competitive } ) } } className={"selecttoken selectable " + ( this.state.competitive ? 'selected' : '' )}><i className="fas fa-trophy"></i></div>
                 
                 
                 <div className="right">
-                    <span className={"tournamentformselect left " + ( this.state.formCount == 0 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 0 ) }}>All</span>
-                    <span className={"tournamentformselect " + ( this.state.formCount == 6 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 6 ) }}>6</span>
-                    <span className={"tournamentformselect " + ( this.state.formCount == 12 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 12 ) }}>12</span>
-                    <span className={"tournamentformselect right " + ( this.state.formCount == 777 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 777 ) }}>Weekly</span>
+                    <span className={"tournamentformselect left selectable " + ( this.state.formCount == 0 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 0 ) }}>All</span>
+                    <span className={"tournamentformselect selectable " + ( this.state.formCount == 6 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 6 ) }}>6</span>
+                    <span className={"tournamentformselect selectable " + ( this.state.formCount == 12 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 12 ) }}>12</span>
+                    <span className={"tournamentformselect right selectable " + ( this.state.formCount == 777 ? 'selected' : '' )} onClick={() => { this.handleFormChange( 777 ) }}>Weekly</span>
                 </div>
 
                 <TournamentTable 

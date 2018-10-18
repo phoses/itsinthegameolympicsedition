@@ -32,7 +32,7 @@ class PlayerList extends Component {
             <div className="center">
 
                 {this.props.players.map(( player, i ) =>
-                    <div className={"player " + (this.state.selectedPlayers.includes(player) ? "selected" : "")} key={i} onClick={() => this.playerClick( player )}>
+                    <div className={"player selectable " + (this.state.selectedPlayers.includes(player) ? "selected" : "")} key={i} onClick={() => this.playerClick( player )}>
                         {player.name}
                     </div>
                 )}

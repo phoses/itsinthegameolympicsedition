@@ -19,7 +19,7 @@ class Newgame extends Component {
                 tournament: null,
                 overtime: false
             },
-            tournamentindex: -1,
+            tournament: null,
             random: true,
             evenfill: true
         }
@@ -50,14 +50,9 @@ class Newgame extends Component {
         }
     }
 
-    changeTournament( event ) {
+    changeTournament( tournament ) {
 
-        this.state.tournamentindex = event.target.value;
-        if(this.state.tournamentindex == -1){
-            this.state.game.tournament = null;
-        }else{
-            this.state.game.tournament = this.props.data.tournaments[this.state.tournamentindex];
-        }
+        this.state.game.tournament = tournament;
             
         console.log( JSON.stringify( event.target.value ) );
     }
@@ -150,13 +145,13 @@ class Newgame extends Component {
 
         return (
             <div className="renderContent newgame">
-                <div onClick={() => { this.setState( { random: !this.state.random } ) }} className={"selecttoken playerselecttoken " + ( this.state.random ? 'selected' : '' )}><i className="fas fa-random"></i></div>
-                <div onClick={() => { this.setState( { evenfill: !this.state.evenfill } ) }} className={"selecttoken playerselecttoken " + ( this.state.evenfill ? 'selected' : '' )}><i className="fas fa-th-list"></i></div>
+                <div onClick={() => { this.setState( { random: !this.state.random } ) }} className={"selecttoken playerselecttoken selectable " + ( this.state.random ? 'selected' : '' )}><i className="fas fa-random"></i></div>
+                <div onClick={() => { this.setState( { evenfill: !this.state.evenfill } ) }} className={"selecttoken playerselecttoken selectable " + ( this.state.evenfill ? 'selected' : '' )}><i className="fas fa-th-list"></i></div>
                 <div className="topic">Select players</div>
 
                 <PlayerList players={this.props.data.players} selectPlayer={this.selectPlayer} />
 
-                {(this.state.game.timeplayed != undefined && this.state.game.homeplayers.length == 2 && this.state.game.awayplayers.length == 2) && 
+                {(this.state.game.timeplayed != undefined ) && 
                     <Result game={this.state.game}
                         clear={this.clear}
                         changeHomeGoal={this.changeHomeGoal}
@@ -174,15 +169,15 @@ class Result extends React.Component {
         return (
             <div className="newgame">
 
-                <TournamentSelect changeTournament={this.props.changeTournament} tournamentindex={this.props.tournamentindex} data={this.props.data} />
+                <TournamentSelect changeTournament={this.props.changeTournament} data={this.props.data} />
 
                 <table className="table newgametable">
                     <tbody>
                         <tr>
                             <td colSpan="4"></td>
-                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeHomeGoal( 1 )}><i className="fa fa-plus"></i></span></td>
+                            <td className="tdcenter"><span className="actionbutton default selectable" onClick={() => this.props.changeHomeGoal( 1 )}><i className="fa fa-plus"></i></span></td>
                             <td className="tdcenter"></td>
-                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeAwayGoal( 1 )}><i className="fa fa-plus"></i></span></td>
+                            <td className="tdcenter"><span className="actionbutton default selectable" onClick={() => this.props.changeAwayGoal( 1 )}><i className="fa fa-plus"></i></span></td>
                             <td className="tdcenter">OT</td>
                             <td></td>
                         </tr>
@@ -191,9 +186,9 @@ class Result extends React.Component {
 
                         <tr>
                             <td colSpan="4"></td>
-                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeHomeGoal( -1 )}><i className="fa fa-minus"></i></span></td>
+                            <td className="tdcenter"><span className="actionbutton default selectable" onClick={() => this.props.changeHomeGoal( -1 )}><i className="fa fa-minus"></i></span></td>
                             <td></td>
-                            <td className="tdcenter"><span className="actionbutton default" onClick={() => this.props.changeAwayGoal( -1 )}><i className="fa fa-minus"></i></span></td>
+                            <td className="tdcenter"><span className="actionbutton default selectable" onClick={() => this.props.changeAwayGoal( -1 )}><i className="fa fa-minus"></i></span></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -201,7 +196,7 @@ class Result extends React.Component {
                 </table>
 
                 <div className="center">
-                    <span className="actionbutton" onClick={() => this.props.clear()}><i className="fa fa-undo"></i></span>
+                    <span className="actionbutton selectable" onClick={() => this.props.clear()}><i className="fa fa-undo"></i></span>
                 </div>
             </div>
         );

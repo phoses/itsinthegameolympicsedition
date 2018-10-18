@@ -5,23 +5,24 @@ class TournamentSelect extends Component {
 
     constructor( props ) {
         super( props );
-//        this.state = {
+        this.state = {
 //                defaultTournamentId : cookie.load('defaultTournament')
-//        }
+                selectedTournament:null 
+        }
      
         this.changeTournament = this.changeTournament.bind( this );
     }
 
-    changeTournament( event ) {
+    changeTournament( tournament ) {
         
-//        for (var i = 0; i < this.props.data.tournaments.length; i++) {            
-//            if(event.target.value == i){
-//                cookie.save('defaultTournament', this.props.data.tournaments[i].id);    
-//            }
-//
-//        }
-
-        this.props.changeTournament( event );
+        console.log("selected tournament " + tournament.name);
+        
+        if(this.state.selectedTournament == tournament){
+            tournament = null;
+        }
+        
+        this.setState({selectedTournament : tournament});
+        this.props.changeTournament( tournament );
     }
     
     render() {
@@ -29,14 +30,15 @@ class TournamentSelect extends Component {
 
             <div className="tournamentSelect">
                 <span className="formselect topic">Tournament:</span>
-                <select className="select" value={this.props.tournamentindex} onChange={this.changeTournament}>
-                    
-                    <option value="-1">-- Select tournament --</option>
-                    
+        
+                <div className="tournamentList">
                     {this.props.data.tournaments.map(( tournament, i ) =>
-                        <option key={i} name={"tournament_"+tournament.name} value={i} >{tournament.name}</option>
+                        <span className={"tournament selectable " + (this.state.selectedTournament == tournament ? "selected" : "")} key={i} onClick={() => this.changeTournament( tournament )}>
+                            {tournament.name}
+                        </span>
                     )}
-                </select>
+                </div>
+        
             </div>
         );
     }

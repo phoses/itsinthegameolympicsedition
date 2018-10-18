@@ -92,9 +92,9 @@ class GameRow extends React.Component {
                 </td>
                 <td className="tdright">
                     {this.props.newgame ? (
-                        <span className="actionbutton save" onClick={this.action}><i className="far fa-save"></i></span>
+                        <span className="actionbutton save selectable" onClick={this.action}><i className="far fa-save"></i></span>
                     ) : (
-                            <span className="actionbutton delete" onClick={this.action}><i className="far fa-trash-alt"></i></span>
+                            <span className="actionbutton delete selectable" onClick={this.action}><i className="far fa-trash-alt"></i></span>
                         )}
                 </td>
             </tr>

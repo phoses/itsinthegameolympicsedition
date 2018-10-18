@@ -33,22 +33,22 @@ class App extends Component {
     
     componentDidMount() {        
         axios.get( this.state.apilocation+'/api/tournaments' ).then( ( response ) => {
-            console.log( "fetched tournaments : " + JSON.stringify( response ) );
+//            console.log( "fetched tournaments : " + JSON.stringify( response ) );
             this.setState({tournaments:response.data});
         } );
         
         axios.get( this.state.apilocation+'/api/players' ).then( ( response ) => {
-            console.log( "fetched players : " + JSON.stringify( response ) );
+//            console.log( "fetched players : " + JSON.stringify( response ) );
             this.setState({players:response.data});
         } );
         
         axios.get( this.state.apilocation+'/api/games' ).then( ( response ) => {
-            console.log( "fetched games : " + JSON.stringify( response ) );
+//            console.log( "fetched games : " + JSON.stringify( response ) );
             this.setState({games:response.data});
         } );
         
-        axios.get( this.state.apilocation+'/api/scoretables' ).then( ( response ) => {
-            console.log( "fetched scoretables : " + JSON.stringify( response ) );
+        axios.get( this.state.apilocation+'/api/scoretables/true' ).then( ( response ) => {
+//            console.log( "fetched scoretables : " + JSON.stringify( response ) );
             this.setState({scoretables:response.data});
         } );
     }
