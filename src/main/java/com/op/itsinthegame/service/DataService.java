@@ -129,7 +129,7 @@ public class DataService {
 		return createScoretableCurrentweek(scoreAsTeam == null ? false : scoreAsTeam);
 	}
 	
-	@RequestMapping(value={"/api/scoretables/playergamecount/{gamecount}/", "/api/scoretables/playergamecount/{gamecount}/{scoreasteam}"}, method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value={"/api/scoretables/playergamecount/{gamecount}", "/api/scoretables/playergamecount/{gamecount}/{scoreasteam}"}, method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
 	public Iterable<Scoretable> scoretablePlayerGameCount(@PathVariable("gamecount") Integer gamecount, @PathVariable(name="scoreasteam", required=false) Boolean scoreAsTeam){
 		return createScoretable(gamecount, scoreAsTeam == null ? false : scoreAsTeam);

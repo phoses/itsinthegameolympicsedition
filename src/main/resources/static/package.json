@@ -35,7 +35,9 @@
 		"react-router-dom": "^4.2.2",
 		"uglifyjs-webpack-plugin": "^1.2.2",
 		"webpack": "^3.10.0",
-		"url-parse": "^1.4.3"
+		"url-parse": "^1.4.3",
+		"atob": "^2.1.0",
+		"randomatic": "^3.0.0"
 	},
 	"devDependencies": {
 		"webpack-dev-server": "^2.11.1"
