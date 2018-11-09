@@ -3,29 +3,21 @@ package com.op.itsinthegame.dto;
 import org.springframework.data.annotation.Id;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class Tournament {
 	
 	@Id
 	private String id;
-	private String name;
-	private Integer winpoints;
-	private Integer otwinpoints;
-	private Integer otlosepoints;
-	private Integer drawpoints;
-
-	public Tournament() {
-		super();
-	}
-
-	public Tournament(String name, Integer winpoints, Integer otwinpoints, Integer otlosepoints, Integer drawpoints) {
-		super();
-		this.name = name;
-		this.winpoints = winpoints;
-		this.otlosepoints = otwinpoints;
-		this.otlosepoints = otlosepoints;
-		this.drawpoints = drawpoints;
-	}
+	@NonNull private String name;
+	@NonNull private Integer winpoints;
+	@NonNull private Integer otwinpoints;
+	@NonNull private Integer otlosepoints;
+	@NonNull private Integer drawpoints;
 
 }

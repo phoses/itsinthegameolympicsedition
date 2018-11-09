@@ -7,36 +7,25 @@ import java.util.Set;
 import org.springframework.data.annotation.Id;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Game{
 	
 	@Id
 	private String id;
-	private Date timeplayed;
-	private Set<Player> homeplayers;
-	private Set<Player> awayplayers;
-	private Integer homegoals;
-	private Integer awaygoals;
-	private boolean overtime;
-	private Tournament tournament;
+	@NonNull private Date timeplayed;
+	@NonNull private Set<Player> homeplayers;
+	@NonNull private Set<Player> awayplayers;
+	@NonNull private Integer homegoals;
+	@NonNull private Integer awaygoals;
+	@NonNull private Boolean overtime;
+	@NonNull private Tournament tournament;
 
-	public Game() {
-		super();
-	}
-
-	public Game(Date timeplayed, Set<Player> homeplayers, Set<Player> awayplayers, Integer homegoals, Integer awaygoals,
-			boolean overtime, Tournament tournament) {
-		super();
-		this.timeplayed = timeplayed;
-		this.homeplayers = homeplayers;
-		this.awayplayers = awayplayers;
-		this.homegoals = homegoals;
-		this.awaygoals = awaygoals;
-		this.overtime = overtime;
-		this.tournament = tournament;
-	}
-	
 	public Set<Player> getAllPlayers(){
 		
 		Set<Player> allPlayers = new HashSet<>();
@@ -44,6 +33,10 @@ public class Game{
 		allPlayers.addAll(awayplayers);
 		
 		return allPlayers;
+	}
+
+	public boolean isOvertime() {
+		return overtime;
 	}
 
 }

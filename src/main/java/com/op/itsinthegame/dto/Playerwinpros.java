@@ -1,7 +1,5 @@
 package com.op.itsinthegame.dto;
 
-import java.util.Comparator;
-
 import lombok.Data;
 
 @Data
